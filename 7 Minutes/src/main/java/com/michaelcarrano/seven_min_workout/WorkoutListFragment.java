@@ -1,14 +1,13 @@
 package com.michaelcarrano.seven_min_workout;
 
+import com.michaelcarrano.seven_min_workout.adapter.WorkoutListAdapter;
+import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.michaelcarrano.seven_min_workout.adapter.WorkoutListAdapter;
-import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 
 /**
  * A list fragment representing a list of Workouts. This fragment

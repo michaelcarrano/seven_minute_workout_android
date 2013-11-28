@@ -7,6 +7,9 @@ import com.michaelcarrano.seven_min_workout.data.WorkoutContent.Workout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 
 /**
@@ -44,6 +47,8 @@ public class WorkoutListActivity extends FragmentActivity implements WorkoutList
 
         setContentView(R.layout.activity_workout_list);
 
+        getActionBar().setTitle(getString(R.string.app_label));
+
     }
 
     /**
@@ -56,5 +61,31 @@ public class WorkoutListActivity extends FragmentActivity implements WorkoutList
         Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
         detailIntent.putExtra(WorkoutDetailFragment.ARG_ITEM_ID, id);
         startActivity(detailIntent);
+    }
+
+    /**
+     * Add menu items to ActionBar
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    /**
+     * Handle menu item clicks
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about_app:
+                Toast.makeText(this, getString(R.string.menu_about_app), Toast.LENGTH_LONG).show();
+                break;
+            case R.id.menu_start_workout:
+                Toast.makeText(this, getString(R.string.menu_start_workout), Toast.LENGTH_LONG).show();
+                break;
+        }
+        return true;
     }
 }

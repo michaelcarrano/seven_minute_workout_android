@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- ActionBar colors-->
+    <color name="actionbar_text">#FFFFFF</color>
+    <color name="actionbar_background">#F39C12</color>
+
     <!-- Workout colors -->
     <color name="jumping_jacks_dark">#16A085</color>
     <color name="jumping_jacks_light">#1ABC9C</color>
