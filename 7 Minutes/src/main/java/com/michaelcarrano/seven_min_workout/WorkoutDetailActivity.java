@@ -25,9 +25,7 @@ public class WorkoutDetailActivity extends FragmentActivity {
         setContentView(R.layout.activity_workout_detail);
 
         // Get the Workout that was selected
-        int selected = Integer.parseInt(
-                getIntent().getStringExtra(WorkoutDetailFragment.ARG_ITEM_ID))
-                - 1; // fix off by one error
+        int selected = getIntent().getExtras().getInt(WorkoutDetailFragment.ARG_WORKOUT_POS);
         WorkoutContent.Workout workout = WorkoutContent.WORKOUTS.get(selected);
         Log.i("7min", "Selected: " + selected);
 
@@ -53,8 +51,8 @@ public class WorkoutDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(WorkoutDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(WorkoutDetailFragment.ARG_ITEM_ID));
+            arguments.putString(WorkoutDetailFragment.ARG_WORKOUT_POS,
+                    getIntent().getStringExtra(WorkoutDetailFragment.ARG_WORKOUT_POS));
             WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

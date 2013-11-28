@@ -56,10 +56,10 @@ public class WorkoutListActivity extends FragmentActivity implements WorkoutList
      * given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(int position) {
         // Start the detail activity for the selected workout ID.
         Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
-        detailIntent.putExtra(WorkoutDetailFragment.ARG_ITEM_ID, id);
+        detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
         startActivity(detailIntent);
     }
 

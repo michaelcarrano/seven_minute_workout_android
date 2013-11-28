@@ -3,7 +3,6 @@ package com.michaelcarrano.seven_min_workout;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,14 +18,14 @@ import android.widget.TextView;
 public class WorkoutDetailFragment extends Fragment {
 
     /**
-     * The fragment argument representing the item ID that this fragment represents.
+     * The fragment argument representing the Workout ID that this fragment represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_WORKOUT_POS = "workout_pos";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Workout content this fragment is presenting.
      */
-    private WorkoutContent.Workout mItem;
+    private WorkoutContent.Workout mWorkout;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -39,12 +38,11 @@ public class WorkoutDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(ARG_WORKOUT_POS)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = WorkoutContent.WORKOUTS.get(
-                    Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
+            mWorkout = WorkoutContent.WORKOUTS.get(getArguments().getInt(ARG_WORKOUT_POS));
         }
     }
 
@@ -53,10 +51,10 @@ public class WorkoutDetailFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_workout_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
+        // Show the workout content as text in a TextView.
+        if (mWorkout != null) {
             TextView content = (TextView) rootView.findViewById(R.id.workout_detail);
-            content.setText(mItem.content);
+            content.setText(mWorkout.content);
             content.setTextColor(Color.WHITE);
         }
 
