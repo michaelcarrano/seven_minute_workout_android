@@ -86,6 +86,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-1.1.5" level="project" />
+    <orderEntry type="library" name="YouTubeAndroidPlayerApi" level="project" />
   </component>
 </module>
 

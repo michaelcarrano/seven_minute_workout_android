@@ -4,6 +4,8 @@
     <string name="app_name">7 Minute Workout</string>
     <string name="app_label">Minute Workout</string>
 
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+
     <!-- ActionBar menu -->
     <string name="menu_start_workout">Start workout</string>
     <string name="menu_about_app">About</string>

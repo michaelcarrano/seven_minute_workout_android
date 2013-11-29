@@ -44,4 +44,7 @@ dependencies {
 	compile 'com.android.support:support-v4:18.0.0'
     compile 'com.crashlytics.android:crashlytics:1.+'
 
+    // other dependencies
+    compile files('libs/YoutubeAndroidPlayerApi.jar')
+
 }

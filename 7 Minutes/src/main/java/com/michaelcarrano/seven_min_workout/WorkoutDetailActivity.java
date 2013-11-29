@@ -27,7 +27,7 @@ public class WorkoutDetailActivity extends FragmentActivity {
         // Get the Workout that was selected
         int selected = getIntent().getExtras().getInt(WorkoutDetailFragment.ARG_WORKOUT_POS);
         WorkoutContent.Workout workout = WorkoutContent.WORKOUTS.get(selected);
-        Log.i("7min", "Selected: " + selected);
+        Log.i("7min", "Selected: " + selected + " " + workout.name);
 
         // Set the ActionBar title, icon, and up button values.
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,12 +51,12 @@ public class WorkoutDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(WorkoutDetailFragment.ARG_WORKOUT_POS,
-                    getIntent().getStringExtra(WorkoutDetailFragment.ARG_WORKOUT_POS));
+
+            arguments.putInt(WorkoutDetailFragment.ARG_WORKOUT_POS, selected);
             WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.workout_detail_container, fragment)
+            getSupportFragmentManager().beginTransaction().add(R.id.workout_detail_container,
+                    fragment)
                     .commit();
         }
     }
