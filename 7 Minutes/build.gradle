@@ -5,7 +5,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
         classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
 
     }
@@ -14,9 +14,8 @@ apply plugin: 'android'
 apply plugin: 'crashlytics'
 
 repositories {
-    mavenCentral()
     maven { url 'http://download.crashlytics.com/maven' }
-
+    mavenCentral()
 }
 
 android {
@@ -43,8 +42,5 @@ android {
 dependencies {
 	compile 'com.android.support:support-v4:18.0.0'
     compile 'com.crashlytics.android:crashlytics:1.+'
-
-    // other dependencies
     compile files('libs/YoutubeAndroidPlayerApi.jar')
-
 }

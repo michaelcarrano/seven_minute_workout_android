@@ -1,0 +1,20 @@
+<resources>
+    <!-- Circular Progress Bar -->
+    <declare-styleable name="circularProgressBar">
+
+        <!-- our custom attribute -->
+        <attr name="max" format="integer" />
+        <attr name="bgColor" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="bgStrokeWidth" format="dimension" />
+        <attr name="progressStrokeWidth" format="dimension" />
+        <attr name="diameter" format="dimension" />
+        <attr name="showText" format="boolean" />
+
+        <!-- Std stuff -->
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:layout_margin" />
+    </declare-styleable>
+
+</resources>

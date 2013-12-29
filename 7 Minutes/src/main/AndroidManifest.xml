@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
     package="com.michaelcarrano.seven_min_workout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -12,6 +13,7 @@
 
     <application
         android:allowBackup="true"
+        android:debuggable="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
@@ -24,6 +26,22 @@
         </activity>
         <activity
             android:name="com.michaelcarrano.seven_min_workout.WorkoutDetailActivity"
+            android:parentActivityName=".WorkoutListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutListActivity" />
+        </activity>
+        <activity
+            android:name="com.michaelcarrano.seven_min_workout.WorkoutCountdownActivity"
+            android:parentActivityName=".WorkoutListActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutListActivity" />
+        </activity>
+
+        <activity
+            android:name="com.michaelcarrano.seven_min_workout.AboutActivity"
             android:parentActivityName=".WorkoutListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

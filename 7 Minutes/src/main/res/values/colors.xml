@@ -4,6 +4,7 @@
     <!-- ActionBar colors-->
     <color name="actionbar_text">#FFFFFF</color>
     <color name="actionbar_background">#F39C12</color>
+    <color name="countdown_background">#bdc3c7</color>
 
     <!-- Workout colors -->
     <color name="jumping_jacks_dark">#16A085</color>
@@ -41,5 +42,10 @@
 
     <color name="side_planks_dark">#8E44AD</color>
     <color name="side_planks_light">#9B59B6</color>
+
+    <!-- CircularProgressBar colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#CCCCCC</color>
 
 </resources>

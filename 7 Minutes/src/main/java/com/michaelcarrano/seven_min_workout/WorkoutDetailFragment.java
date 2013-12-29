@@ -52,6 +52,8 @@ public class WorkoutDetailFragment extends Fragment {
             mWorkout = WorkoutContent.WORKOUTS.get(getArguments().getInt(ARG_WORKOUT_POS));
             Log.i("7min", "Frag: " + mWorkout.name);
         }
+
+        video();
     }
 
     @Override
@@ -65,8 +67,6 @@ public class WorkoutDetailFragment extends Fragment {
             content.setText(mWorkout.content);
             content.setTextColor(Color.WHITE);
         }
-
-        video();
 
         return rootView;
     }

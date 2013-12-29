@@ -10,6 +10,19 @@
     <string name="menu_start_workout">Start workout</string>
     <string name="menu_about_app">About</string>
 
+    <!-- Workout texts -->
+    <string name="get_ready">Get Ready</string>
+    <string name="rest">Rest</string>
+    <string name="finished">You finished the workout!</string>
+
+    <!-- About texts -->
+    <string name="about_part1">The 7 Minute Workout originally appeared in the May/June 2013 issue of ACSM\'s Health and Fitness Journal. The workout consists of 12 high intensity body weight exercises. 30 seconds per exercise. 10 seconds rest between exercises.</string>
+    <string name="about_part2">Remember to always check with your doctor before exercising and seek professional help to ensure correct form of the exercises.</string>
+    <string name="about_part3">The workout videos from Youtube remain the owner\'s, please support them because they do amazing work making them available.</string>
+    <string name="about_part4">Permissions Required: Internet</string>
+    <string name="about_part5">This application requires the internet in order to play Youtube videos that describe each exercise. (The Youtube application needs to be installed in order to view these videos)</string>
+    <string name="about_part6">This application requires the internet in order to use Crashlytics to collect data when and only when the application crashes. The data collected will help to identify the cause of the crash.</string>
+
     <!-- Workout names -->
     <string name="jumping_jacks">Jumping jacks</string>
     <string name="wall_sits">Wall sits</string>
