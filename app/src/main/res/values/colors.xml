@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFC107</color>
+    <color name="colorPrimaryDark">#FFA000</color>
+    <color name="colorAccent">#FF9800</color>
+
+
+    <!-- ActionBar colors-->
+    <color name="actionbar_text">#FFFFFF</color>
+    <color name="actionbar_background">#F39C12</color>
+    <color name="countdown_background">#bdc3c7</color>
+
+    <!-- Workout colors -->
+    <color name="jumping_jacks_dark">#16A085</color>
+    <color name="jumping_jacks_light">#1ABC9C</color>
+
+    <color name="wall_sits_dark">#27AE60</color>
+    <color name="wall_sits_light">#2ECC71</color>
+
+    <color name="push_ups_dark">#2980B9</color>
+    <color name="push_ups_light">#3498DB</color>
+
+    <color name="abdominal_crunches_dark">#8E44AD</color>
+    <color name="abdominal_crunches_light">#9B59B6</color>
+
+    <color name="step_ups_onto_a_chair_dark">#2C3E50</color>
+    <color name="step_ups_onto_a_chair_light">#34495E</color>
+
+    <color name="squats_dark">#F39C12</color>
+    <color name="squats_light">#F1C40F</color>
+
+    <color name="triceps_dips_on_a_chair_dark">#D35400</color>
+    <color name="triceps_dips_on_a_chair_light">#E67E22</color>
+
+    <color name="planks_dark">#C0392B</color>
+    <color name="planks_light">#E74C3C</color>
+
+    <color name="high_knees_running_in_place_dark">#7f8c8d</color>
+    <color name="high_knees_running_in_place_light">#95a5a6</color>
+
+    <color name="lunges_dark">#16A085</color>
+    <color name="lunges_light">#1ABC9C</color>
+
+    <color name="push_ups_and_rotations_dark">#2980B9</color>
+    <color name="push_ups_and_rotations_light">#3498DB</color>
+
+    <color name="side_planks_dark">#8E44AD</color>
+    <color name="side_planks_light">#9B59B6</color>
+
+    <array name="darkColors">
+        <item>@color/jumping_jacks_dark</item>
+        <item>@color/wall_sits_dark</item>
+        <item>@color/push_ups_dark</item>
+        <item>@color/abdominal_crunches_dark</item>
+        <item>@color/step_ups_onto_a_chair_dark</item>
+        <item>@color/squats_dark</item>
+        <item>@color/triceps_dips_on_a_chair_dark</item>
+        <item>@color/planks_dark</item>
+        <item>@color/high_knees_running_in_place_dark</item>
+        <item>@color/lunges_dark</item>
+        <item>@color/push_ups_and_rotations_dark</item>
+        <item>@color/side_planks_dark</item>
+    </array>
+
+    <array name="lightColors">
+        <item>@color/jumping_jacks_light</item>
+        <item>@color/wall_sits_light</item>
+        <item>@color/push_ups_light</item>
+        <item>@color/abdominal_crunches_light</item>
+        <item>@color/step_ups_onto_a_chair_light</item>
+        <item>@color/squats_light</item>
+        <item>@color/triceps_dips_on_a_chair_light</item>
+        <item>@color/planks_light</item>
+        <item>@color/high_knees_running_in_place_light</item>
+        <item>@color/lunges_light</item>
+        <item>@color/push_ups_and_rotations_light</item>
+        <item>@color/side_planks_light</item>
+    </array>
+
+    <!-- CircularProgressBar colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#CCCCCC</color>
+
+
+</resources>
