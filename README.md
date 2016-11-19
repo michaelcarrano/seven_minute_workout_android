@@ -7,6 +7,8 @@ The application was developed using [Android Studio](https://developer.android.c
 
 This application can be found on Google Play: [7 Minute Workout](https://play.google.com/store/apps/details?id=com.michaelcarrano.seven_min_workout).
 
+<a href='https://play.google.com/store/apps/details?id=com.michaelcarrano.seven_min_workout&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+
 Roadmap
 =======
 There is a lot that can be done to improve this application and below is just a short list of improvements I will be working on in the future.
@@ -22,7 +24,7 @@ There is a lot that can be done to improve this application and below is just a 
 * Add ability to customize the exercise and rest countdown time.
 * Add ability to randomize the workout order.
 * Add ability to log your workout.
-* Explore supporting Android 2.3.x devices.
+* ~~Explore supporting Android 2.3.x devices.~~
 
 
 License

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.michaelcarrano.seven_min_workout">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.michaelcarrano.seven_min_workout.WorkoutListActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.michaelcarrano.seven_min_workout.WorkoutDetailActivity"
+            android:parentActivityName=".WorkoutListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutListActivity" />
+        </activity>
+        <activity
+            android:name="com.michaelcarrano.seven_min_workout.WorkoutCountdownActivity"
+            android:parentActivityName=".WorkoutListActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutListActivity" />
+        </activity>
+
+        <activity
+            android:name="com.michaelcarrano.seven_min_workout.AboutActivity"
+            android:label="@string/menu_about_app"
+            android:parentActivityName=".WorkoutListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutListActivity" />
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3fb5327e30111ad3ebb87c0769045f97c142cf2c" />
+    </application>
+
+</manifest>
