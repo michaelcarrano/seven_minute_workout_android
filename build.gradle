@@ -3,28 +3,33 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
+        google()
+        maven { url "https://maven.fabric.io/public" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:3.1.1'
         classpath 'io.fabric.tools:gradle:1.+'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
+        google()
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.fabric.io/public" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    buildToolsVersion = "27.0.3"
+    minSdkVersion = 16
+    targetSdkVersion = 27
+    compileSdkVersion = 27
+
+    supportLib = "27.1.1"
 }

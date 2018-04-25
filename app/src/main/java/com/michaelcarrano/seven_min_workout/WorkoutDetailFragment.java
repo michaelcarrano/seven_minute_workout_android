@@ -51,7 +51,7 @@ public class WorkoutDetailFragment extends Fragment {
 
         // Show the workout content as text in a TextView.
         if (mWorkout != null) {
-            TextView content = (TextView) rootView.findViewById(R.id.workout_detail);
+            TextView content = rootView.findViewById(R.id.workout_detail);
             content.setText(mWorkout.content);
         }
 

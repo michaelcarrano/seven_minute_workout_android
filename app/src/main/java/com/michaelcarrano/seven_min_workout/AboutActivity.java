@@ -13,10 +13,6 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        // Set the ActionBar title and up button
-//        getActionBar().setTitle(getString(R.string.app_label));
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Set the text
         TextView textView = (TextView) findViewById(R.id.about_text);
         textView.append(getString(R.string.about_part1));

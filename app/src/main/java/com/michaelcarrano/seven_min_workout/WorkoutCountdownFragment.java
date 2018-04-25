@@ -66,9 +66,7 @@ public class WorkoutCountdownFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater
                 .inflate(R.layout.fragment_workout_countdown, container, false);
-        mCircularProgressBar = (CircularProgressBar) rootView
-                .findViewById(R.id.workout_countdown_time);
-//        rootView.setBackgroundColor(Color.parseColor(mWorkout.light));
+        mCircularProgressBar = rootView.findViewById(R.id.workout_countdown_time);
 
         // Start off with 10 second rest, then alternate
         if (!workoutInProgress) {
@@ -93,21 +91,19 @@ public class WorkoutCountdownFragment extends Fragment {
             public void onTick(long millisUntilFinished) {
                 REMAINING_TIME = (int) (millisUntilFinished / 1000);
 
-                TextView name = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+                TextView name = rootView.findViewById(R.id.workout_countdown_name);
                 if (!workoutInProgress) {
                     name.setText(R.string.get_ready);
                 } else {
                     name.setText(R.string.rest);
                 }
 
-                TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+                TextView id = rootView.findViewById(R.id.workout_countdown_id);
                 id.setText(mWorkout.id);
 
                 id.setBackgroundColor(mWorkout.dark);
                 name.setBackgroundColor(mWorkout.light);
 
-//                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
-//                time.setText("" + millisUntilFinished / 1000);
                 mCircularProgressBar.setMax(REST_TIME / 1000);
                 mCircularProgressBar.setProgress(REMAINING_TIME);
 
@@ -128,14 +124,12 @@ public class WorkoutCountdownFragment extends Fragment {
             public void onTick(long millisUntilFinished) {
                 REMAINING_TIME = (int) (millisUntilFinished / 1000);
 
-                TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+                TextView ready = rootView.findViewById(R.id.workout_countdown_name);
                 ready.setText(mWorkout.name);
 
-                TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+                TextView id = rootView.findViewById(R.id.workout_countdown_id);
                 id.setText(mWorkout.id);
 
-//                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
-//                time.setText("" + millisUntilFinished / 1000);
                 mCircularProgressBar.setMax(EXERCISE_TIME / 1000);
                 mCircularProgressBar.setProgress(REMAINING_TIME);
 
@@ -145,7 +139,6 @@ public class WorkoutCountdownFragment extends Fragment {
             public void onFinish() {
                 if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
                     mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
-//                    rootView.setBackgroundColor(Color.parseColor(mWorkout.light));
                     rest(rootView);
                 } else {
                     finish(rootView);
@@ -158,12 +151,12 @@ public class WorkoutCountdownFragment extends Fragment {
     private void finish(View rootView) {
         mCountDownTimer.cancel();
         // hide the current views
-        LinearLayout info = (LinearLayout) rootView.findViewById(R.id.workout_countdown_info);
+        LinearLayout info = rootView.findViewById(R.id.workout_countdown_info);
         info.setVisibility(View.GONE);
         mCircularProgressBar.setVisibility(View.GONE);
 
         // display "finished"
-        TextView textView = (TextView) rootView.findViewById(R.id.workout_countdown_finished);
+        TextView textView = rootView.findViewById(R.id.workout_countdown_finished);
         textView.setVisibility(View.VISIBLE);
     }
 

@@ -49,8 +49,8 @@ public class WorkoutListAdapter extends BaseAdapter {
             convertView = mLayoutInflater.inflate(R.layout.adapter_workout_row, parent, false);
 
             holder = new ViewHolder();
-            holder.id = (TextView) convertView.findViewById(R.id.workout_id);
-            holder.name = (TextView) convertView.findViewById(R.id.workout_name);
+            holder.id = convertView.findViewById(R.id.workout_id);
+            holder.name = convertView.findViewById(R.id.workout_name);
 
             convertView.setTag(holder);
         } else {

@@ -1,13 +1,13 @@
 package com.michaelcarrano.seven_min_workout;
 
-import com.michaelcarrano.seven_min_workout.adapter.WorkoutListAdapter;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
+
+import com.michaelcarrano.seven_min_workout.adapter.WorkoutListAdapter;
 
 /**
  * A list fragment representing a list of Workouts. This fragment also supports tablet devices by
@@ -68,9 +68,7 @@ public class WorkoutListFragment extends ListFragment {
         getListView().setDividerHeight(0);
 
         // Restore ListView position
-//        Log.i("7min", "onViewCreated");
         if (mListViewScrollPos != null) {
-//            Log.i("7min", "Restore scroll position");
             getListView().onRestoreInstanceState(mListViewScrollPos);
         }
     }
@@ -111,7 +109,6 @@ public class WorkoutListFragment extends ListFragment {
             // Serialize and persist the activated item position.
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
-//        Log.i("7min", "onSaveInstanceState");
         mListViewScrollPos = getListView().onSaveInstanceState();
     }
 
@@ -146,6 +143,6 @@ public class WorkoutListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(int position);
+        void onItemSelected(int position);
     }
 }
