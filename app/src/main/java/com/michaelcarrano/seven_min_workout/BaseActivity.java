@@ -15,7 +15,7 @@ import android.view.ViewGroup;
  * Created by michaelcarrano on 10/1/16.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar toolbar;
 
@@ -59,12 +59,12 @@ public class BaseActivity extends AppCompatActivity {
 
     @NonNull
     public FloatingActionButton addFab() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         if (fab == null) {
             getLayoutInflater().inflate(R.layout.fab, getCoordinatorLayout());
 
-            fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab = findViewById(R.id.fab);
         }
 
         setShowFab(true);
@@ -74,7 +74,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Nullable
     public FloatingActionButton setShowFab(boolean show) {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
 
         if (fab == null || fab.getVisibility() == View.VISIBLE && show || fab.getVisibility() == View.GONE && !show) {
             return fab;
@@ -84,7 +84,6 @@ public class BaseActivity extends AppCompatActivity {
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
         if (show) {
-//            params.setBehavior(new FloatingActionButtonBehavior(this));
             fab.setVisibility(View.VISIBLE);
         } else {
             params.setBehavior(null);
