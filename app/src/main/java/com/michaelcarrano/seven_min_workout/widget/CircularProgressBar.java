@@ -41,7 +41,7 @@ public class CircularProgressBar extends View {
     private int mMax;
 
     // current progress between 0 and mMax
-    private int mProgress;
+    private float mProgress;
 
     // diameter (in dp) of the circle
     private float mDiameter;
@@ -168,13 +168,13 @@ public class CircularProgressBar extends View {
             }
 
             // draw text in the center
-            canvas.drawText(String.valueOf(this.mProgress), center,
+            canvas.drawText(String.valueOf((int)(this.mProgress + 1)), center,
                     center + (this.mTextBounds.height() >> 1),
                     this.mTextPaint);
         }
     }
 
-    public void setProgress(final int progress) {
+    public void setProgress(final float progress) {
         this.mProgress = progress;
 
         // force redraw
