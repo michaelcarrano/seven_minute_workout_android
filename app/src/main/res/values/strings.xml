@@ -110,4 +110,9 @@
         <item>@string/side_planks_video</item>
     </string-array>
 
+    <string name="repText">Reps Completed: </string>
+    <string name="avg_string">Average:</string>
+    <string name="best_text">Personal Best: </string>
+    <string name="is_completed">Completed:</string>
+    <string name="completed_last">Completed Last Time:</string>
 </resources>

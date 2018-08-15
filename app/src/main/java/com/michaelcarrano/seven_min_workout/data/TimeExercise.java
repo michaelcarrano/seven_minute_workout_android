@@ -1,6 +1,6 @@
 package com.michaelcarrano.seven_min_workout.data;
 
-public class TimeExercise implements ExerciseStats {
+public class TimeExercise extends ExerciseStats {
     private String exerciseName = "";
     private boolean completedLastTime = false;
     private double completedPercentage = 0;

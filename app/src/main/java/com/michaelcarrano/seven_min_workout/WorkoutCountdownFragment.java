@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
+import com.michaelcarrano.seven_min_workout.data.RepExercise;
+import com.michaelcarrano.seven_min_workout.data.Stats;
+import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 
@@ -24,8 +28,8 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 30000;    // 30 seconds
-
+//    private final int EXERCISE_TIME = 30000;    // 30 seconds
+    private final int EXERCISE_TIME = 10000;
     private final int REST_TIME = 10000;        // 10 seconds
 
     /**
@@ -53,6 +57,11 @@ public class WorkoutCountdownFragment extends Fragment {
      */
     private boolean workoutInProgress = false;
 
+    /**
+     * to keep track of stats
+     */
+    private Stats stats;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +70,9 @@ public class WorkoutCountdownFragment extends Fragment {
 
         // Set mWorkout to the first workout
         mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+
+        //Initialize stats variable
+        stats = new Stats(getActivity());
     }
 
     @Override
@@ -89,7 +101,36 @@ public class WorkoutCountdownFragment extends Fragment {
         mCountDownTimer.cancel();
     }
 
+    private LinearLayout statsLayout = null;
+    private boolean isRep = false;
+
     private void rest(final View rootView) {
+
+        TextView name = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+        if (!workoutInProgress) {
+            name.setText(R.string.get_ready);
+        } else {
+            name.setText(R.string.rest);
+
+            ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
+            if (prev instanceof TimeExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
+                isRep = false;
+            } else if (prev instanceof RepExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
+                isRep = true;
+            }
+            statsLayout.setVisibility(View.VISIBLE);
+        }
+
+        TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+        id.setText(mWorkout.id);
+
+        id.setBackgroundColor(mWorkout.dark);
+        name.setBackgroundColor(mWorkout.light);
+
         mCountDownTimer = new CountDownTimer(REST_TIME, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -98,18 +139,6 @@ public class WorkoutCountdownFragment extends Fragment {
                     MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.mario_cart_start_sound);
                     mediaPlayer.start();
                 }
-                TextView name = (TextView) rootView.findViewById(R.id.workout_countdown_name);
-                if (!workoutInProgress) {
-                    name.setText(R.string.get_ready);
-                } else {
-                    name.setText(R.string.rest);
-                }
-
-                TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
-                id.setText(mWorkout.id);
-
-                id.setBackgroundColor(mWorkout.dark);
-                name.setBackgroundColor(mWorkout.light);
 
 //                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
 //                time.setText("" + millisUntilFinished / 1000);
@@ -122,29 +151,49 @@ public class WorkoutCountdownFragment extends Fragment {
             public void onFinish() {
                 workoutInProgress = true;
                 exercise(rootView);
+
+                ExerciseStats exercise = stats.getStats()[mWorkoutPos - 1];
+                exercise.incrementWorkoutsCompleted();
+                if (isRep)
+                {
+                    TextView tv = (TextView) rootView.findViewById(R.id.repsCompletedPlainText);
+                    RepExercise re = (RepExercise) exercise;
+                    int reps = Integer.valueOf(tv.getText().toString());
+                    re.setCompletedLastTime(reps);
+                    if (reps > re.getPersonalBest()) {
+                        re.setPersonalBest(reps);
+                    }
+                    re.addToTotalReps(reps);
+                    re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
+                } else
+                {
+                    
+                }
             }
         };
         mCountDownTimer.start();
     }
 
     private void exercise(final View rootView) {
+
+        (rootView.findViewById(R.id.repExerciseStats)).setVisibility(View.GONE);
+        (rootView.findViewById(R.id.timeExerciseStats)).setVisibility(View.GONE);
+
+        TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+        ready.setText(mWorkout.name);
+
+        TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+        id.setText(mWorkout.id);
+
         mCountDownTimer = new CountDownTimer(EXERCISE_TIME, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 REMAINING_TIME = (millisUntilFinished / 1000.0f);
 
-
-                TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
-                ready.setText(mWorkout.name);
-
-                TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
-                id.setText(mWorkout.id);
-
 //                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
 //                time.setText("" + millisUntilFinished / 1000);
                 mCircularProgressBar.setMax(EXERCISE_TIME / 1000);
                 mCircularProgressBar.setProgress(REMAINING_TIME);
-
             }
 
             @Override
