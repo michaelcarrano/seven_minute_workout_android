@@ -23,6 +23,7 @@ public class Stats {
             stats[9] = new RepExercise(workoutNames[9]);
             stats[10] = new RepExercise(workoutNames[10]);
             stats[11] = new TimeExercise(workoutNames[11]);
+            //branch test
     }
 
     public int getWorkoutsCompleted() {
