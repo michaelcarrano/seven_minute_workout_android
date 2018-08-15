@@ -224,4 +224,11 @@ public class CircularProgressBar extends View {
         this.mDiameter = diameter;
     }
 
+    public int getmProgress() {
+        return mProgress;
+    }
+
+    public int getmMax() {
+        return mMax;
+    }
 }

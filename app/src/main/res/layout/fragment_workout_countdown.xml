@@ -70,6 +70,12 @@
             circularprogress:showText="true"
             tools:visibility="visible" />
 
+        <Button
+            android:id="@+id/pauseAndPlayBtn"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:text="Pause" />
+
     </LinearLayout>
 
 </RelativeLayout>
