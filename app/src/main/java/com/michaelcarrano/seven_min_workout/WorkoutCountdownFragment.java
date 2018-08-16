@@ -73,15 +73,14 @@ public class WorkoutCountdownFragment extends Fragment {
         pauseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mCountDownTimer.cancel();
                 Button pauseAndPlayBtn = (Button) view;
                 if (pauseAndPlayBtn.getText().equals("PLAY")) {
                     pauseAndPlayBtn.setText("PAUSE");
                     isPaused = false;
 
-
                     Log.d("FINAL", REMAINING_TIME + "");
-                    mCountDownTimer = null;
-                    mCountDownTimer = new CountDownTimer((long)REMAINING_TIME * 1000, 10) {
+                    mCountDownTimer = new CountDownTimer((int) (REMAINING_TIME * 1000.0f), 10) {
                         @Override
                         public void onTick(long millisUntilFinished) {
                             if (!isPaused) {
@@ -125,7 +124,6 @@ public class WorkoutCountdownFragment extends Fragment {
 
                 } else {
                     pauseAndPlayBtn.setText("PLAY");
-                    mCountDownTimer.cancel();
                     isPaused = true;
                 }
 
