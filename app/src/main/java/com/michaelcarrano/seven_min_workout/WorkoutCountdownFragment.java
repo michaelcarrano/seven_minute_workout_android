@@ -1,5 +1,6 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -59,6 +60,7 @@ public class WorkoutCountdownFragment extends Fragment {
 
         // Set mWorkout to the first workout
         mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+
     }
 
     @Override
@@ -76,7 +78,8 @@ public class WorkoutCountdownFragment extends Fragment {
         } else {
             exercise(rootView);
         }
-
+        ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         return rootView;
     }
 
