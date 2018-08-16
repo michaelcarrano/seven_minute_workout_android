@@ -1,5 +1,7 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,7 +20,7 @@ import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
  */
 public class WorkoutCountdownFragment extends Fragment {
 
-    private static int REMAINING_TIME;          // Time remaining (ie: device rotation)
+    private static float REMAINING_TIME;          // Time remaining (ie: device rotation)
 
     /**
      * The time spent for each activity (exercise or rest)
@@ -91,11 +93,14 @@ public class WorkoutCountdownFragment extends Fragment {
     }
 
     private void rest(final View rootView) {
-        mCountDownTimer = new CountDownTimer(REST_TIME, 1000) {
+        mCountDownTimer = new CountDownTimer(REST_TIME, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
-                REMAINING_TIME = (int) (millisUntilFinished / 1000);
-
+                REMAINING_TIME = (millisUntilFinished / 1000.0f);
+                if (REMAINING_TIME < 3.59 && REMAINING_TIME > 3.49) {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.mario_cart_start_sound);
+                    mediaPlayer.start();
+                }
                 TextView name = (TextView) rootView.findViewById(R.id.workout_countdown_name);
                 if (!workoutInProgress) {
                     name.setText(R.string.get_ready);
@@ -126,10 +131,11 @@ public class WorkoutCountdownFragment extends Fragment {
     }
 
     private void exercise(final View rootView) {
-        mCountDownTimer = new CountDownTimer(EXERCISE_TIME, 1000) {
+        mCountDownTimer = new CountDownTimer(EXERCISE_TIME, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
-                REMAINING_TIME = (int) (millisUntilFinished / 1000);
+                REMAINING_TIME = (millisUntilFinished / 1000.0f);
+
 
                 TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
                 ready.setText(mWorkout.name);
@@ -149,6 +155,8 @@ public class WorkoutCountdownFragment extends Fragment {
                 if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
                     mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
 //                    rootView.setBackgroundColor(Color.parseColor(mWorkout.light));
+                    MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ting);
+                    mediaPlayer.start();
                     rest(rootView);
                 } else {
                     finish(rootView);
@@ -160,6 +168,10 @@ public class WorkoutCountdownFragment extends Fragment {
 
     private void finish(View rootView) {
         mCountDownTimer.cancel();
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.cheer3);
+        mediaPlayer.start();
+
         // hide the current views
         LinearLayout info = (LinearLayout) rootView.findViewById(R.id.workout_countdown_info);
         info.setVisibility(View.GONE);
