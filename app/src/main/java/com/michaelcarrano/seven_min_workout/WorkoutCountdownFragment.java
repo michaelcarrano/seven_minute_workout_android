@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
 import com.michaelcarrano.seven_min_workout.data.TimeExercise;
+import com.michaelcarrano.seven_min_workout.data.Stats;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 
@@ -138,7 +139,7 @@ public class WorkoutCountdownFragment extends Fragment {
                     exercise.incrementWorkoutsCompleted();
                     if (isRep)
                     {
-                        EditText tv = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
+                        EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
                         RepExercise re = (RepExercise) exercise;
                         int reps = Integer.valueOf(tv.getText().toString());
                         re.setCompletedLastTime(reps);
@@ -149,7 +150,7 @@ public class WorkoutCountdownFragment extends Fragment {
                         re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
                     } else
                     {
-                        CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
+                        CheckBox cb = (CheckBox) getView().findViewById(R.id.isCompletedCheckBox);
                         TimeExercise te = (TimeExercise) exercise;
                         if (cb.isChecked()) {
                             te.setTotalCompleted(te.getTotalCompleted() + 1);

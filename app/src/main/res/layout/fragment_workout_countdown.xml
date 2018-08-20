@@ -24,7 +24,6 @@
             android:onClick="layoutClicked"
             android:orientation="horizontal">
 
-<<<<<<< HEAD
             <TextView
                 android:id="@+id/workout_countdown_id"
                 android:layout_width="0dp"
@@ -48,32 +47,17 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff" />
         </LinearLayout>
-=======
-        <TextView
-            android:id="@+id/workout_countdown_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:text="@string/high_knees_running_in_place"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
 
->>>>>>> workout-log
+
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/countdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
         android:layout_above="@+id/workout_countdown_info_container"
         android:animateLayoutChanges="true"
-=======
-        android:layout_above="@id/repExerciseStats"
->>>>>>> workout-log
         android:gravity="center"
         android:orientation="vertical">
 
@@ -114,7 +98,6 @@
         android:id="@+id/repExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/workout_countdown_info"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"
@@ -211,7 +194,6 @@
         android:id="@+id/timeExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/workout_countdown_info"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"
