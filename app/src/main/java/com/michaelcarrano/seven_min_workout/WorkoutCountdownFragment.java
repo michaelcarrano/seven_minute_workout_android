@@ -159,9 +159,6 @@ public class WorkoutCountdownFragment extends Fragment {
                 if (isRep)
                 {
                     EditText tv = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
-                    if (tv.getText().toString() == "") {
-
-                    }
                     RepExercise re = (RepExercise) exercise;
                     int reps = Integer.valueOf(tv.getText().toString());
                     re.setCompletedLastTime(reps);
