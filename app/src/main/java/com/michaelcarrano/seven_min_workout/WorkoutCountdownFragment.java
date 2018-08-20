@@ -22,6 +22,7 @@ import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.Stats;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
+import com.ohoussein.playpause.PlayPauseView;
 
 /**
  * Created by michaelcarrano on 12/6/13.
@@ -96,6 +97,8 @@ public class WorkoutCountdownFragment extends Fragment {
         } else {
             exercise(rootView);
         }
+
+
         ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         pauseAndPlayButtonSetUp(rootView);
@@ -174,14 +177,14 @@ public class WorkoutCountdownFragment extends Fragment {
     }
 
     private void pauseAndPlayButtonSetUp(View rootView) {
-        Button pauseBtn = (Button) rootView.findViewById(R.id.pauseAndPlayBtn);
-        pauseBtn.setOnClickListener(new View.OnClickListener() {
+        final PlayPauseView playAndPause = (PlayPauseView) rootView.findViewById(R.id.play_pause_view);
+        playAndPause.toggle();
+        playAndPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Button pauseAndPlayBtn = (Button) view;
+                playAndPause.toggle();
                 if (isPaused) {
                     isPaused = false;
-                    pauseAndPlayBtn.setText("PAUSE");
 
                     setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, mCircularProgressBar.getmMax() * 1000);
                     mCountDownTimer.start();
@@ -189,7 +192,6 @@ public class WorkoutCountdownFragment extends Fragment {
                 } else {
                     mCountDownTimer.cancel();
                     isPaused = true;
-                    pauseAndPlayBtn.setText("PLAY");
                 }
             }
         });
