@@ -110,7 +110,17 @@
         <item>@string/side_planks_video</item>
     </string-array>
 
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+=======
+    <string name="repText">Reps Completed: </string>
+    <string name="avg_string">Average:</string>
+    <string name="best_text">Personal Best: </string>
+    <string name="is_completed">Completed:</string>
+    <string name="completed_last">Completed Last Time:</string>
+    <string name="workout_summary">Workout Summary</string>
+    <string name="high_knees">High knees</string>
+>>>>>>> workout-log
 </resources>
