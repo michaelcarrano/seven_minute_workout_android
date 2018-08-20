@@ -11,9 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
+import com.michaelcarrano.seven_min_workout.data.RepExercise;
+import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 
@@ -189,9 +194,10 @@ public class WorkoutCountdownFragment extends Fragment {
         });
     }
 
+    private LinearLayout statsLayout = null;
+    private boolean isRep = false;
 
     private void rest(final View rootView) {
-
 
 
         isResting = true;
