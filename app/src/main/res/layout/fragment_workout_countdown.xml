@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:circularprogress="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/workout_countdown"
@@ -24,7 +25,6 @@
             android:onClick="layoutClicked"
             android:orientation="horizontal">
 
-<<<<<<< HEAD
             <TextView
                 android:id="@+id/workout_countdown_id"
                 android:layout_width="0dp"
@@ -48,32 +48,17 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff" />
         </LinearLayout>
-=======
-        <TextView
-            android:id="@+id/workout_countdown_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:fontFamily="sans-serif"
-            android:gravity="center_vertical"
-            android:paddingLeft="15dp"
-            android:text="@string/high_knees_running_in_place"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
 
->>>>>>> workout-log
+
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/countdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
         android:layout_above="@+id/workout_countdown_info_container"
         android:animateLayoutChanges="true"
-=======
-        android:layout_above="@id/repExerciseStats"
->>>>>>> workout-log
         android:gravity="center"
         android:orientation="vertical">
 
@@ -102,11 +87,16 @@
             circularprogress:showText="true"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/pauseAndPlayBtn"
-            android:layout_width="101dp"
-            android:layout_height="wrap_content"
-            android:text="Pause" />
+        <com.ohoussein.playpause.PlayPauseView
+            android:id="@+id/play_pause_view"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackground"
+            app:fill_color="#e1e1e1"
+            app:pause_bg="#00a2ed"
+            app:play_bg="#990000"
+            />
 
     </LinearLayout>
 
@@ -114,7 +104,6 @@
         android:id="@+id/repExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/workout_countdown_info"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"
@@ -211,7 +200,6 @@
         android:id="@+id/timeExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/workout_countdown_info"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"

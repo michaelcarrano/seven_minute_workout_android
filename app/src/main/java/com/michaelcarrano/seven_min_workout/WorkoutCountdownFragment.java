@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
+import com.ohoussein.playpause.PlayPauseView;
 
 /**
  * Created by michaelcarrano on 12/6/13.
@@ -66,6 +69,9 @@ public class WorkoutCountdownFragment extends Fragment {
         // Set mWorkout to the first workout
         mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
 
+
+
+
     }
 
     @Override
@@ -83,6 +89,8 @@ public class WorkoutCountdownFragment extends Fragment {
         } else {
             exercise(rootView);
         }
+
+
         ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         pauseAndPlayButtonSetUp(rootView);
@@ -96,9 +104,11 @@ public class WorkoutCountdownFragment extends Fragment {
         mCountDownTimer.cancel();
     }
 
+
     private void setupCountDownTimer(final int millisInFuture, int countDownInterval, final int progressBarMax) {
         mCircularProgressBar.setMax(progressBarMax / 1000);
         mCountDownTimer = new CountDownTimer(millisInFuture, 10) {
+
             @Override
             public void onTick(long millisUntilFinished) {
                 if (!isPaused) {
@@ -115,13 +125,40 @@ public class WorkoutCountdownFragment extends Fragment {
                         mCircularProgressBar.setProgress(REMAINING_TIME);
                     }
                 }
+
+
+
             }
 
             @Override
             public void onFinish() {
+
                 if (isResting) {
                     workoutInProgress = true;
                     exercise(getView());
+                    ExerciseStats exercise = stats.getStats()[mWorkoutPos - 1];
+                    exercise.incrementWorkoutsCompleted();
+                    if (isRep)
+                    {
+                        EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
+                        RepExercise re = (RepExercise) exercise;
+                        int reps = Integer.valueOf(tv.getText().toString());
+                        re.setCompletedLastTime(reps);
+                        if (reps > re.getPersonalBest()) {
+                            re.setPersonalBest(reps);
+                        }
+                        re.addToTotalReps(reps);
+                        re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
+                    } else
+                    {
+                        CheckBox cb = (CheckBox) getView().findViewById(R.id.isCompletedCheckBox);
+                        TimeExercise te = (TimeExercise) exercise;
+                        if (cb.isChecked()) {
+                            te.setTotalCompleted(te.getTotalCompleted() + 1);
+                        }
+                        te.setCompletedLastTime(cb.isChecked());
+                        te.setCompletedPercentage(te.getWorkoutsCompleted()/te.getTotalCompleted());
+                    }
                 } else {
                     if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
                         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ting);
@@ -132,20 +169,25 @@ public class WorkoutCountdownFragment extends Fragment {
                     } else {
                         finish(getView());
                     }
+
+
                 }
             }
         };
     }
 
+
     private void pauseAndPlayButtonSetUp(View rootView) {
-        Button pauseBtn = (Button) rootView.findViewById(R.id.pauseAndPlayBtn);
-        pauseBtn.setOnClickListener(new View.OnClickListener() {
+
+
+        final PlayPauseView playAndPause = (PlayPauseView) rootView.findViewById(R.id.play_pause_view);
+        playAndPause.toggle();
+        playAndPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Button pauseAndPlayBtn = (Button) view;
+                playAndPause.toggle();
                 if (isPaused) {
                     isPaused = false;
-                    pauseAndPlayBtn.setText("PAUSE");
 
                     setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, mCircularProgressBar.getmMax() * 1000);
                     mCountDownTimer.start();
@@ -153,14 +195,17 @@ public class WorkoutCountdownFragment extends Fragment {
                 } else {
                     mCountDownTimer.cancel();
                     isPaused = true;
-                    pauseAndPlayBtn.setText("PLAY");
                 }
             }
         });
     }
 
+    private LinearLayout statsLayout = null;
+    private boolean isRep = false;
 
     private void rest(final View rootView) {
+
+
         isResting = true;
         TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
         id.setText(mWorkout.id);
@@ -172,6 +217,18 @@ public class WorkoutCountdownFragment extends Fragment {
             name.setText(R.string.get_ready);
         } else {
             name.setText(R.string.rest);
+
+            ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
+            if (prev instanceof TimeExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
+                isRep = false;
+            } else if (prev instanceof RepExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
+                isRep = true;
+            }
+            statsLayout.setVisibility(View.VISIBLE);
         }
         REMAINING_TIME = REST_TIME / 1000.0f;
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
@@ -179,6 +236,8 @@ public class WorkoutCountdownFragment extends Fragment {
     }
 
     private void exercise(final View rootView) {
+        (rootView.findViewById(R.id.repExerciseStats)).setVisibility(View.GONE);
+        (rootView.findViewById(R.id.timeExerciseStats)).setVisibility(View.GONE);
         isResting = false;
         TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
         ready.setText(mWorkout.name);
