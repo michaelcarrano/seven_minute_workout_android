@@ -49,7 +49,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
             params.height = params.height + 800;
             ll.setLayoutParams(params);
             TextView tv = new TextView(this);
-            tv.setText("STUFF GOES HERE");
+            applyText(tv);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             tv.setLayoutParams(layoutParams);
             ll.addView(tv);
@@ -60,6 +60,51 @@ public class WorkoutCountdownActivity extends BaseActivity {
             ll.setLayoutParams(params);
             textDisplayed = false;
         }
+    }
+
+    public void applyText(TextView tv) {
+        String text = "";
+        switch (((TextView)findViewById(R.id.workout_countdown_name)).getText().toString()) {
+            case "Jumping jacks":
+                text = getString(R.string.jumping_jacks_desc);
+                break;
+            case "Wall sits":
+                text = getString(R.string.wall_sits_desc);
+                break;
+            case "Push-ups":
+                text = getString(R.string.push_ups_desc);
+                break;
+            case "Abdominal crunches":
+                text = getString(R.string.abdominal_crunches_desc);
+                break;
+            case "Step-ups onto a chair":
+                text = getString(R.string.step_ups_onto_a_chair_desc);
+                break;
+            case "Squats":
+                text = getString(R.string.squats_desc);
+                break;
+            case "Triceps dips on a chair":
+                text = getString(R.string.triceps_dips_on_a_chair_desc);
+                break;
+            case "Planks":
+                text = getString(R.string.planks_desc);
+                break;
+            case "High knees running in place":
+                text = getString(R.string.high_knees_running_in_place_desc);
+                break;
+            case "Lunges":
+                text = getString(R.string.lunges_desc);
+                break;
+            case "Push-ups and rotations":
+                text = getString(R.string.push_ups_and_rotations_desc);
+                break;
+            case "Side planks":
+                text = getString(R.string.side_planks_desc);
+                break;
+        }
+
+        tv.setText(text);
+
     }
 
 }

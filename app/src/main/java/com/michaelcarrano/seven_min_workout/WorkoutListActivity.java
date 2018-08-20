@@ -2,6 +2,8 @@ package com.michaelcarrano.seven_min_workout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.view.View;
  */
 public class WorkoutListActivity extends BaseActivity implements WorkoutListFragment.Callbacks {
 
+    WorkoutListFragment workoutList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                 startActivity(workoutIntent);
             }
         });
+        //workoutList = findViewById(R.id.workout_list);
     }
 
     /**
@@ -44,6 +49,9 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
         Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
         detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
         startActivity(detailIntent);
+
+        Fragment myFrag = new WorkoutDetailFragment();
+        //getFragmentManager().beginTransaction().add(workoutList.getId(), myFrag).commit();
     }
 
     /**
