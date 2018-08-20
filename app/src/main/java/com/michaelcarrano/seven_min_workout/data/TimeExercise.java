@@ -3,6 +3,7 @@ package com.michaelcarrano.seven_min_workout.data;
 public class TimeExercise extends ExerciseStats {
     private String exerciseName = "";
     private boolean completedLastTime = false;
+    private int totalCompleted = 0;
     private double completedPercentage = 0;
 
     public TimeExercise() {
@@ -34,5 +35,13 @@ public class TimeExercise extends ExerciseStats {
 
     public void setCompletedPercentage(double completedPercentage) {
         this.completedPercentage = completedPercentage;
+    }
+
+    public int getTotalCompleted() {
+        return totalCompleted;
+    }
+
+    public void setTotalCompleted(int totalCompleted) {
+        this.totalCompleted = totalCompleted;
     }
 }

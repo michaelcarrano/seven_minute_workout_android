@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -156,7 +158,10 @@ public class WorkoutCountdownFragment extends Fragment {
                 exercise.incrementWorkoutsCompleted();
                 if (isRep)
                 {
-                    TextView tv = (TextView) rootView.findViewById(R.id.repsCompletedPlainText);
+                    EditText tv = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
+                    if (tv.getText().toString() == "") {
+
+                    }
                     RepExercise re = (RepExercise) exercise;
                     int reps = Integer.valueOf(tv.getText().toString());
                     re.setCompletedLastTime(reps);
@@ -167,7 +172,13 @@ public class WorkoutCountdownFragment extends Fragment {
                     re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
                 } else
                 {
-                    
+                    CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
+                    TimeExercise te = (TimeExercise) exercise;
+                    if (cb.isChecked()) {
+                        te.setTotalCompleted(te.getTotalCompleted() + 1);
+                    }
+                    te.setCompletedLastTime(cb.isChecked());
+                    te.setCompletedPercentage(te.getWorkoutsCompleted()/te.getTotalCompleted());
                 }
             }
         };

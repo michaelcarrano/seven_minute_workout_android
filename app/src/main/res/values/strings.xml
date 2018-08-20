@@ -115,4 +115,5 @@
     <string name="best_text">Personal Best: </string>
     <string name="is_completed">Completed:</string>
     <string name="completed_last">Completed Last Time:</string>
+    <string name="workout_summary">Workout Summary</string>
 </resources>
