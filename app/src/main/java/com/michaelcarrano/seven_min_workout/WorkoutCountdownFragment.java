@@ -10,10 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.Button;
+=======
+import android.widget.CheckBox;
+import android.widget.EditText;
+>>>>>>> workout-log
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
+import com.michaelcarrano.seven_min_workout.data.RepExercise;
+import com.michaelcarrano.seven_min_workout.data.Stats;
+import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 
@@ -28,8 +37,8 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 30000;    // 30 seconds
-
+//    private final int EXERCISE_TIME = 30000;    // 30 seconds
+    private final int EXERCISE_TIME = 10000;
     private final int REST_TIME = 10000;        // 10 seconds
 
     /**
@@ -57,6 +66,11 @@ public class WorkoutCountdownFragment extends Fragment {
      */
     private boolean workoutInProgress = false;
 
+    /**
+     * to keep track of stats
+     */
+    private Stats stats;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +80,11 @@ public class WorkoutCountdownFragment extends Fragment {
         // Set mWorkout to the first workout
         mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
 
+<<<<<<< HEAD
+=======
+        //Initialize stats variable
+        stats = new Stats(getActivity());
+>>>>>>> workout-log
     }
 
     @Override
@@ -96,9 +115,43 @@ public class WorkoutCountdownFragment extends Fragment {
         mCountDownTimer.cancel();
     }
 
+<<<<<<< HEAD
     private void setupCountDownTimer(final int millisInFuture, int countDownInterval, final int progressBarMax) {
         mCircularProgressBar.setMax(progressBarMax / 1000);
         mCountDownTimer = new CountDownTimer(millisInFuture, 10) {
+=======
+    private LinearLayout statsLayout = null;
+    private boolean isRep = false;
+
+    private void rest(final View rootView) {
+
+        TextView name = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+        if (!workoutInProgress) {
+            name.setText(R.string.get_ready);
+        } else {
+            name.setText(R.string.rest);
+
+            ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
+            if (prev instanceof TimeExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
+                isRep = false;
+            } else if (prev instanceof RepExercise)
+            {
+                statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
+                isRep = true;
+            }
+            statsLayout.setVisibility(View.VISIBLE);
+        }
+
+        TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+        id.setText(mWorkout.id);
+
+        id.setBackgroundColor(mWorkout.dark);
+        name.setBackgroundColor(mWorkout.light);
+
+        mCountDownTimer = new CountDownTimer(REST_TIME, 10) {
+>>>>>>> workout-log
             @Override
             public void onTick(long millisUntilFinished) {
                 if (!isPaused) {
@@ -115,10 +168,20 @@ public class WorkoutCountdownFragment extends Fragment {
                         mCircularProgressBar.setProgress(REMAINING_TIME);
                     }
                 }
+<<<<<<< HEAD
+=======
+
+//                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
+//                time.setText("" + millisUntilFinished / 1000);
+                mCircularProgressBar.setMax(REST_TIME / 1000);
+                mCircularProgressBar.setProgress(REMAINING_TIME);
+
+>>>>>>> workout-log
             }
 
             @Override
             public void onFinish() {
+<<<<<<< HEAD
                 if (isResting) {
                     workoutInProgress = true;
                     exercise(getView());
@@ -132,14 +195,56 @@ public class WorkoutCountdownFragment extends Fragment {
                     } else {
                         finish(getView());
                     }
+=======
+                workoutInProgress = true;
+                exercise(rootView);
+
+                ExerciseStats exercise = stats.getStats()[mWorkoutPos - 1];
+                exercise.incrementWorkoutsCompleted();
+                if (isRep)
+                {
+                    EditText tv = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
+                    RepExercise re = (RepExercise) exercise;
+                    int reps = Integer.valueOf(tv.getText().toString());
+                    re.setCompletedLastTime(reps);
+                    if (reps > re.getPersonalBest()) {
+                        re.setPersonalBest(reps);
+                    }
+                    re.addToTotalReps(reps);
+                    re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
+                } else
+                {
+                    CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
+                    TimeExercise te = (TimeExercise) exercise;
+                    if (cb.isChecked()) {
+                        te.setTotalCompleted(te.getTotalCompleted() + 1);
+                    }
+                    te.setCompletedLastTime(cb.isChecked());
+                    te.setCompletedPercentage(te.getWorkoutsCompleted()/te.getTotalCompleted());
+>>>>>>> workout-log
                 }
             }
         };
     }
 
+<<<<<<< HEAD
     private void pauseAndPlayButtonSetUp(View rootView) {
         Button pauseBtn = (Button) rootView.findViewById(R.id.pauseAndPlayBtn);
         pauseBtn.setOnClickListener(new View.OnClickListener() {
+=======
+    private void exercise(final View rootView) {
+
+        (rootView.findViewById(R.id.repExerciseStats)).setVisibility(View.GONE);
+        (rootView.findViewById(R.id.timeExerciseStats)).setVisibility(View.GONE);
+
+        TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
+        ready.setText(mWorkout.name);
+
+        TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
+        id.setText(mWorkout.id);
+
+        mCountDownTimer = new CountDownTimer(EXERCISE_TIME, 10) {
+>>>>>>> workout-log
             @Override
             public void onClick(View view) {
                 Button pauseAndPlayBtn = (Button) view;
@@ -147,6 +252,7 @@ public class WorkoutCountdownFragment extends Fragment {
                     isPaused = false;
                     pauseAndPlayBtn.setText("PAUSE");
 
+<<<<<<< HEAD
                     setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, mCircularProgressBar.getmMax() * 1000);
                     mCountDownTimer.start();
 
@@ -177,6 +283,13 @@ public class WorkoutCountdownFragment extends Fragment {
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
         mCountDownTimer.start();
     }
+=======
+//                TextView time = (TextView) rootView.findViewById(R.id.workout_countdown_time);
+//                time.setText("" + millisUntilFinished / 1000);
+                mCircularProgressBar.setMax(EXERCISE_TIME / 1000);
+                mCircularProgressBar.setProgress(REMAINING_TIME);
+            }
+>>>>>>> workout-log
 
     private void exercise(final View rootView) {
         isResting = false;
