@@ -1,29 +1,21 @@
 package com.michaelcarrano.seven_min_workout.data;
 
 public class RepExercise extends ExerciseStats {
-    private String exerciseName = "";
     private int personalBest = 0;
     private int persoanlAvg = 0;
     private int completedLastTime = 0;
     private int totalReps = 0;
+    private int currentReps = 0;
 
     public RepExercise() {
     }
 
     public RepExercise(String exerciseName) {
-        this.exerciseName = exerciseName;
+        this.setExerciseName(exerciseName);
     }
 
     public void addToTotalReps(int reps) {
         totalReps += reps;
-    }
-
-    public String getExerciseName() {
-        return exerciseName;
-    }
-
-    public void setExerciseName(String exerciseName) {
-        this.exerciseName = exerciseName;
     }
 
     public int getPersonalBest() {
@@ -56,5 +48,13 @@ public class RepExercise extends ExerciseStats {
 
     public void setTotalReps(int totalReps) {
         this.totalReps = totalReps;
+    }
+
+    public int getCurrentReps() {
+        return currentReps;
+    }
+
+    public void setCurrentReps(int currentReps) {
+        this.currentReps = currentReps;
     }
 }

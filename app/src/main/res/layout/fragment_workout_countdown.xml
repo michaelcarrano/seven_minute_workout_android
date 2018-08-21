@@ -57,7 +57,8 @@
         android:id="@+id/countdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/workout_countdown_info_container"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:animateLayoutChanges="true"
         android:gravity="center"
         android:orientation="vertical">
@@ -95,8 +96,7 @@
             android:foreground="?android:selectableItemBackground"
             app:fill_color="#e1e1e1"
             app:pause_bg="#00a2ed"
-            app:play_bg="#990000"
-            />
+            app:play_bg="#990000" />
 
     </LinearLayout>
 
@@ -233,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/avg_string"
+                android:text="@string/complete_percentage"
                 android:textSize="20sp" />
 
             <TextView
@@ -244,5 +244,14 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/lastExerciseTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="53dp"
+        android:textSize="24sp" />
 
 </RelativeLayout>

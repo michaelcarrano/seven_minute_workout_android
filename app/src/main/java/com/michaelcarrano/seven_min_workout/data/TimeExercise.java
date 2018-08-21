@@ -1,24 +1,16 @@
 package com.michaelcarrano.seven_min_workout.data;
 
 public class TimeExercise extends ExerciseStats {
-    private String exerciseName = "";
     private boolean completedLastTime = false;
     private int totalCompleted = 0;
     private double completedPercentage = 0;
+    private boolean currentStatus = false;
 
     public TimeExercise() {
     }
 
     public TimeExercise(String exerciseName) {
-        this.exerciseName = exerciseName;
-    }
-
-    public String getExerciseName() {
-        return exerciseName;
-    }
-
-    public void setExerciseName(String exerciseName) {
-        this.exerciseName = exerciseName;
+        this.setExerciseName(exerciseName);
     }
 
     public boolean isCompletedLastTime() {
@@ -43,5 +35,13 @@ public class TimeExercise extends ExerciseStats {
 
     public void setTotalCompleted(int totalCompleted) {
         this.totalCompleted = totalCompleted;
+    }
+
+    public boolean isCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(boolean currentStatus) {
+        this.currentStatus = currentStatus;
     }
 }

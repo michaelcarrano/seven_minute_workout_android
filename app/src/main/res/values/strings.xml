@@ -119,5 +119,6 @@
     <string name="completed_last">Completed Last Time:</string>
     <string name="workout_summary">Workout Summary</string>
     <string name="high_knees">High knees</string>
+    <string name="complete_percentage">Complete Percentage:</string>
 
 </resources>

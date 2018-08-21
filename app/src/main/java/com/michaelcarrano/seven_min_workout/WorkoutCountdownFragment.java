@@ -26,6 +26,10 @@ import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 import com.ohoussein.playpause.PlayPauseView;
 
+import org.w3c.dom.Text;
+
+import java.sql.Time;
+
 /**
  * Created by michaelcarrano on 12/6/13.
  */
@@ -137,6 +141,8 @@ public class WorkoutCountdownFragment extends Fragment {
                     workoutInProgress = true;
                     exercise(getView());
                     if (mWorkoutPos != 0) {
+                        TextView lastEx = (TextView) getView().findViewById(R.id.lastExerciseTextview);
+                        lastEx.setText("");
                         ExerciseStats exercise = stats.getStats()[mWorkoutPos - 1];
                         exercise.incrementWorkoutsCompleted();
                         if (isRep) {
@@ -144,28 +150,31 @@ public class WorkoutCountdownFragment extends Fragment {
                             if (!tv.getText().toString().equals("")) {
                                 RepExercise re = (RepExercise) exercise;
                                 int reps = Integer.valueOf(tv.getText().toString());
-                                re.setCompletedLastTime(reps);
-                                if (reps > re.getPersonalBest()) {
-                                    re.setPersonalBest(reps);
-                                }
-                                re.addToTotalReps(reps);
-                                re.setPersoanlAvg(re.getTotalReps() / re.getWorkoutsCompleted());
+                                re.setCurrentReps(reps);
+                                //do this stuff upon completion
+//                                re.setCompletedLastTime(reps);
+//                                if (reps > re.getPersonalBest()) {
+//                                    re.setPersonalBest(reps);
+//                                }
+//                                re.addToTotalReps(reps);
+//                                re.setPersoanlAvg(re.getTotalReps() / re.getWorkoutsCompleted());
                             }
                         } else {
                             CheckBox cb = (CheckBox) getView().findViewById(R.id.isCompletedCheckBox);
                             TimeExercise te = (TimeExercise) exercise;
-                            if (cb.isChecked()) {
-                                te.setTotalCompleted(te.getTotalCompleted() + 1);
-                            }
-                            te.setCompletedLastTime(cb.isChecked());
-                            te.setCompletedPercentage(te.getWorkoutsCompleted() / te.getTotalCompleted());
+                            te.setCurrentStatus(cb.isChecked());
+                            //do upon completion
+//                            if (cb.isChecked()) {
+//                                te.setTotalCompleted(te.getTotalCompleted() + 1);
+//                            }
+//                            te.setCompletedLastTime(cb.isChecked());
+//                            te.setCompletedPercentage(te.getWorkoutsCompleted() / te.getTotalCompleted());
                         }
                     }
                 } else {
                     if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
                         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ting);
                         mediaPlayer.start();
-                        mediaPlayer.pause();
                         mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
                         rest(getView());
                     } else {
@@ -212,16 +221,33 @@ public class WorkoutCountdownFragment extends Fragment {
             name.setText(R.string.get_ready);
         } else {
             name.setText(R.string.rest);
-
-            ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
-            if (prev instanceof TimeExercise) {
-                statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
-                isRep = false;
-            } else if (prev instanceof RepExercise) {
-                statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
-                isRep = true;
+            if (mWorkoutPos != 0) {
+                ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
+                TextView lastEx = (TextView) rootView.findViewById(R.id.lastExerciseTextview);
+                lastEx.setText(prev.getExerciseName());
+                if (prev instanceof TimeExercise) {
+                    TimeExercise te = (TimeExercise) prev;
+                    statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
+                    CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
+                    cb.setChecked(false);
+                    TextView compPerc = (TextView) rootView.findViewById(R.id.completePercentageStatTextView);
+                    compPerc.setText("%" + te.getCompletedPercentage());
+                    isRep = false;
+                } else if (prev instanceof RepExercise) {
+                    RepExercise re = (RepExercise) prev;
+                    statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
+                    EditText repsCompleted = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
+                    repsCompleted.setText("");
+                    TextView avg = (TextView) rootView.findViewById(R.id.avgStatTextView);
+                    avg.setText(re.getPersoanlAvg() + "");
+                    TextView best = (TextView) rootView.findViewById(R.id.bestStatTextView);
+                    best.setText(re.getPersonalBest() + "");
+                    TextView lastTime = (TextView) rootView.findViewById(R.id.completedLastStatTextView);
+                    lastTime.setText(re.getCompletedLastTime() + "");
+                    isRep = true;
+                }
+                statsLayout.setVisibility(View.VISIBLE);
             }
-            statsLayout.setVisibility(View.VISIBLE);
         }
         REMAINING_TIME = REST_TIME / 1000.0f;
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
