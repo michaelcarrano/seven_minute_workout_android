@@ -1,12 +1,17 @@
 package com.michaelcarrano.seven_min_workout;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 
 
 /**
@@ -22,6 +27,7 @@ import android.view.View;
 public class WorkoutListActivity extends BaseActivity implements WorkoutListFragment.Callbacks {
 
     WorkoutListFragment workoutList;
+    ListView workoutListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                 startActivity(workoutIntent);
             }
         });
-        //workoutList = findViewById(R.id.workout_list);
+        workoutListView = (ListView) findViewById(android.R.id.list);
     }
 
     /**
@@ -46,12 +52,28 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
     @Override
     public void onItemSelected(int position) {
         // Start the detail activity for the selected workout ID.
-        Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
-        detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
-        startActivity(detailIntent);
+        //Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
+        //detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
+        //startActivity(detailIntent);
+
+        Resources resources = getResources();
+        final String[] workoutNames = resources.getStringArray(R.array.workout_names);
+        final String[] workoutDescriptions = resources.getStringArray(R.array.workout_descriptions);
+        final String[] workoutVideos = resources.getStringArray(R.array.workout_videos);
+        final int[] darkColors = resources.getIntArray(R.array.darkColors);
+        final int[] lightColors = resources.getIntArray(R.array.lightColors);
 
         Fragment myFrag = new WorkoutDetailFragment();
         //getFragmentManager().beginTransaction().add(workoutList.getId(), myFrag).commit();
+        WorkoutContent.insertWorkout(new WorkoutContent.Workout(
+                String.valueOf(position + 1),
+                workoutNames[position],
+                workoutDescriptions[position],
+                workoutVideos[position],
+                darkColors[position],
+                lightColors[position]), position);
+        BaseAdapter adapter = (BaseAdapter) workoutListView.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
     /**

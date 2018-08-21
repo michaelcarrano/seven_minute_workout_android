@@ -22,6 +22,8 @@ public class WorkoutContent {
         WORKOUTS.add(workout);
     }
 
+    public static void insertWorkout(Workout workout, int position) { WORKOUTS.add(position, workout); }
+
     /**
      * A Workout representing information related to the workout item.
      */
