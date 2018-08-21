@@ -142,13 +142,15 @@ public class WorkoutCountdownFragment extends Fragment {
                         if (isRep) {
                             EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
                             RepExercise re = (RepExercise) exercise;
-                            int reps = Integer.valueOf(tv.getText().toString());
-                            re.setCompletedLastTime(reps);
-                            if (reps > re.getPersonalBest()) {
-                                re.setPersonalBest(reps);
+                            if (!tv.getText().equals("")) {
+                                int reps = Integer.valueOf(tv.getText().toString());
+                                re.setCompletedLastTime(reps);
+                                if (reps > re.getPersonalBest()) {
+                                    re.setPersonalBest(reps);
+                                }
+                                re.addToTotalReps(reps);
+                                re.setPersoanlAvg(re.getTotalReps() / re.getWorkoutsCompleted());
                             }
-                            re.addToTotalReps(reps);
-                            re.setPersoanlAvg(re.getTotalReps() / re.getWorkoutsCompleted());
                         } else {
                             CheckBox cb = (CheckBox) getView().findViewById(R.id.isCompletedCheckBox);
                             TimeExercise te = (TimeExercise) exercise;
