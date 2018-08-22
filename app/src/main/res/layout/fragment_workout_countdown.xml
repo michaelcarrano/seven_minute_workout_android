@@ -50,7 +50,6 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
 
     <LinearLayout
@@ -94,6 +93,7 @@
             android:layout_height="75dp"
             android:clickable="true"
             android:foreground="?android:selectableItemBackground"
+            android:visibility="visible"
             app:fill_color="#e1e1e1"
             app:pause_bg="#00a2ed"
             app:play_bg="#990000" />
@@ -104,6 +104,7 @@
         android:id="@+id/repExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"
@@ -129,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="number"
+                android:maxLength="5"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -200,11 +202,12 @@
         android:id="@+id/timeExerciseStats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
         android:layout_margin="90dp"
         android:gravity="center_horizontal"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
 
         <LinearLayout
@@ -217,10 +220,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="24sp"
-                android:text="@string/is_completed"
                 android:button="@null"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple" />
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="@string/is_completed"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout

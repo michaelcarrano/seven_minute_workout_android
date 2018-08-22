@@ -1,16 +1,13 @@
 package com.michaelcarrano.seven_min_workout;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,17 +23,15 @@ import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 import com.ohoussein.playpause.PlayPauseView;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
-
 /**
  * Created by michaelcarrano on 12/6/13.
  */
 public class WorkoutCountdownFragment extends Fragment {
+    private boolean marioMediaPlayerIsPaused = false;
     private boolean isPaused = false;
     private boolean isResting = true;
     private int secondOnTimer = 0;
+    private MediaPlayer marioMediaPlayer = new MediaPlayer();
     private static float REMAINING_TIME;          // Time remaining (ie: device rotation)
     /**
      * The time spent for each activity (exercise or rest)
@@ -123,8 +118,8 @@ public class WorkoutCountdownFragment extends Fragment {
                     if (isResting) {
                         REMAINING_TIME = (millisUntilFinished / 1000.0f);
                         if (REMAINING_TIME < 3.59 && REMAINING_TIME > 3.49) {
-                            MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.mario_cart_start_sound);
-                            mediaPlayer.start();
+                            marioMediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.mario_cart_start_sound);
+                            marioMediaPlayer.start();
                         }
                         mCircularProgressBar.setProgress(REMAINING_TIME);
 
@@ -197,8 +192,16 @@ public class WorkoutCountdownFragment extends Fragment {
 
                     setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, mCircularProgressBar.getmMax() * 1000);
                     mCountDownTimer.start();
+                    if(marioMediaPlayerIsPaused){
+                        marioMediaPlayer.start();
+                        marioMediaPlayerIsPaused = false;
+                    }
 
                 } else {
+                    if(marioMediaPlayer.isPlaying()){
+                        marioMediaPlayer.pause();
+                        marioMediaPlayerIsPaused = true;
+                    }
                     mCountDownTimer.cancel();
                     isPaused = true;
                 }
