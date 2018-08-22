@@ -1,10 +1,12 @@
 package com.michaelcarrano.seven_min_workout.data;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.michaelcarrano.seven_min_workout.R;
 
-public class Stats {
+public class Stats implements Parcelable {
     private ExerciseStats[] stats = new ExerciseStats[12];
 
     public Stats(Context context) {
@@ -26,5 +28,29 @@ public class Stats {
 
     public ExerciseStats[] getStats() {
         return stats;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeArray(stats);
+    }
+
+    public static final Parcelable.Creator<Stats> CREATOR = new Parcelable.Creator<Stats>() {
+        public Stats createFromParcel(Parcel in) {
+            return new Stats(in);
+        }
+
+        public Stats[] newArray(int size) {
+            return new Stats[size];
+        }
+    };
+
+    private Stats(Parcel in) {
+        stats = (ExerciseStats[]) in.readArray(ExerciseStats.class.getClassLoader());
     }
 }
