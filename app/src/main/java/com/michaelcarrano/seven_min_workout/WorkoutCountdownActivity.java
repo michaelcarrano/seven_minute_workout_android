@@ -52,6 +52,8 @@ public class WorkoutCountdownActivity extends BaseActivity {
             applyText(tv);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             tv.setLayoutParams(layoutParams);
+            layoutParams.setMargins(50, 0, 50, 0);
+            tv.setTextSize(20);
             ll.addView(tv);
             textDisplayed = true;
         } else {

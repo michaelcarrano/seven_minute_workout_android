@@ -1,12 +1,17 @@
 package com.michaelcarrano.seven_min_workout;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+
+import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 
 
 /**
@@ -22,6 +27,9 @@ import android.view.View;
 public class WorkoutListActivity extends BaseActivity implements WorkoutListFragment.Callbacks {
 
     WorkoutListFragment workoutList;
+    ListView workoutListView;
+    boolean isActiveDescription = false;
+    int activeDescriptionPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,7 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                 startActivity(workoutIntent);
             }
         });
-        //workoutList = findViewById(R.id.workout_list);
+        workoutListView = (ListView) findViewById(android.R.id.list);
     }
 
     /**
@@ -45,13 +53,46 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
      */
     @Override
     public void onItemSelected(int position) {
-        // Start the detail activity for the selected workout ID.
-        Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
-        detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
-        startActivity(detailIntent);
 
-        Fragment myFrag = new WorkoutDetailFragment();
-        //getFragmentManager().beginTransaction().add(workoutList.getId(), myFrag).commit();
+        if (WorkoutContent.MENU_ITEMS.get(position) instanceof WorkoutContent.Workout) {
+            if (!isActiveDescription) {
+                isActiveDescription = true;
+                activeDescriptionPos = position;
+                addDescription(position, false);
+            } else if (position == activeDescriptionPos) {
+                isActiveDescription = false;
+                WorkoutContent.removeDescriptions();
+            } else if (position > activeDescriptionPos) {
+                activeDescriptionPos = position;
+                WorkoutContent.removeDescriptions();
+                addDescription(position, true);
+            } else {
+                activeDescriptionPos = position;
+                WorkoutContent.removeDescriptions();
+                addDescription(position, false);
+            }
+            BaseAdapter adapter = (BaseAdapter) workoutListView.getAdapter();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void addDescription(int position, boolean offsetNeeded) {
+        Resources resources = getResources();
+        final String[] workoutNames = resources.getStringArray(R.array.workout_names);
+        final String[] workoutDescriptions = resources.getStringArray(R.array.workout_descriptions);
+        final String[] workoutVideos = resources.getStringArray(R.array.workout_videos);
+        final int[] darkColors = resources.getIntArray(R.array.darkColors);
+        final int[] lightColors = resources.getIntArray(R.array.lightColors);
+
+        int offsetPos = offsetNeeded ? 0 : 1;
+        int offsetData = offsetNeeded ? -1 : 0;
+        WorkoutContent.insertDescription(new WorkoutContent.Description(
+                String.valueOf(position + offsetPos),
+                workoutNames[position + offsetData],
+                workoutDescriptions[position + offsetData],
+                workoutVideos[position + offsetData],
+                darkColors[position + offsetData],
+                lightColors[position + offsetData]), position + offsetPos);
     }
 
     /**

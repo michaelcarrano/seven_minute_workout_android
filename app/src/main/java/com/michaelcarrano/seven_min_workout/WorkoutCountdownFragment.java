@@ -74,7 +74,7 @@ public class WorkoutCountdownFragment extends Fragment {
         setRetainInstance(true);
 
         // Set mWorkout to the first workout
-        mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+        mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
 
         // Initialize the stats variable
         stats = new Stats(getActivity());
@@ -167,10 +167,10 @@ public class WorkoutCountdownFragment extends Fragment {
                         }
                     }
                 } else {
-                    if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
+                    if (++mWorkoutPos < WorkoutContent.MENU_ITEMS.size()) {
                         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ting);
                         mediaPlayer.start();
-                        mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+                        mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
                         rest(getView());
                     } else {
                         finish(getView());
