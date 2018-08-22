@@ -39,7 +39,7 @@ public class WorkoutDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mWorkout = WorkoutContent.WORKOUTS.get(getArguments().getInt(ARG_WORKOUT_POS));
+            mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(getArguments().getInt(ARG_WORKOUT_POS));
             Log.i("7min", "Frag: " + mWorkout.name);
         }
     }

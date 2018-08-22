@@ -26,7 +26,7 @@ public class App extends Application {
         final int[] darkColors = resources.getIntArray(R.array.darkColors);
         final int[] lightColors = resources.getIntArray(R.array.lightColors);
 
-        if (WorkoutContent.WORKOUTS.isEmpty()) {
+        if (WorkoutContent.MENU_ITEMS.isEmpty()) {
             for (int i = 0; i < workoutNames.length; i++) {
                 WorkoutContent.addWorkout(
                         new WorkoutContent.Workout(
