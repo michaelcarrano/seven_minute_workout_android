@@ -120,5 +120,6 @@
     <string name="workout_summary">Workout Summary</string>
     <string name="high_knees">High knees</string>
     <string name="complete_percentage">Complete Percentage:</string>
+    <string name="complete_workout">Complete Workout</string>
 
 </resources>
