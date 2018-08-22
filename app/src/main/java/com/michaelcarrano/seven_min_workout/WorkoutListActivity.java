@@ -28,6 +28,8 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
 
     WorkoutListFragment workoutList;
     ListView workoutListView;
+    boolean isActiveDescription = false;
+    int activeDescriptionPos = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,30 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
      */
     @Override
     public void onItemSelected(int position) {
-        // Start the detail activity for the selected workout ID.
-        //Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
-        //detailIntent.putExtra(WorkoutDetailFragment.ARG_WORKOUT_POS, position);
-        //startActivity(detailIntent);
 
+        if (WorkoutContent.MENU_ITEMS.get(position) instanceof WorkoutContent.Workout) {
+            if (!isActiveDescription) {
+                isActiveDescription = true;
+                activeDescriptionPos = position;
+                addDescription(position, false);
+            } else if (position == activeDescriptionPos) {
+                isActiveDescription = false;
+                WorkoutContent.removeDescriptions();
+            } else if (position > activeDescriptionPos) {
+                activeDescriptionPos = position;
+                WorkoutContent.removeDescriptions();
+                addDescription(position, true);
+            } else {
+                activeDescriptionPos = position;
+                WorkoutContent.removeDescriptions();
+                addDescription(position, false);
+            }
+            BaseAdapter adapter = (BaseAdapter) workoutListView.getAdapter();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void addDescription(int position, boolean offsetNeeded) {
         Resources resources = getResources();
         final String[] workoutNames = resources.getStringArray(R.array.workout_names);
         final String[] workoutDescriptions = resources.getStringArray(R.array.workout_descriptions);
@@ -63,17 +84,15 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
         final int[] darkColors = resources.getIntArray(R.array.darkColors);
         final int[] lightColors = resources.getIntArray(R.array.lightColors);
 
-        Fragment myFrag = new WorkoutDetailFragment();
-        //getFragmentManager().beginTransaction().add(workoutList.getId(), myFrag).commit();
-        WorkoutContent.insertWorkout(new WorkoutContent.Workout(
-                String.valueOf(position + 1),
-                workoutNames[position],
-                workoutDescriptions[position],
-                workoutVideos[position],
-                darkColors[position],
-                lightColors[position]), position);
-        BaseAdapter adapter = (BaseAdapter) workoutListView.getAdapter();
-        adapter.notifyDataSetChanged();
+        int offsetPos = offsetNeeded ? 0 : 1;
+        int offsetData = offsetNeeded ? -1 : 0;
+        WorkoutContent.insertDescription(new WorkoutContent.Description(
+                String.valueOf(position + offsetPos),
+                workoutNames[position + offsetData],
+                workoutDescriptions[position + offsetData],
+                workoutVideos[position + offsetData],
+                darkColors[position + offsetData],
+                lightColors[position + offsetData]), position + offsetPos);
     }
 
     /**

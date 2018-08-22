@@ -1,16 +1,13 @@
 package com.michaelcarrano.seven_min_workout;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -25,10 +22,6 @@ import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 import com.ohoussein.playpause.PlayPauseView;
-
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 
 /**
  * Created by michaelcarrano on 12/6/13.
@@ -79,7 +72,7 @@ public class WorkoutCountdownFragment extends Fragment {
         setRetainInstance(true);
 
         // Set mWorkout to the first workout
-        mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+        mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
 
         // Initialize the stats variable
         stats = new Stats(getActivity());
@@ -172,10 +165,10 @@ public class WorkoutCountdownFragment extends Fragment {
                         }
                     }
                 } else {
-                    if (++mWorkoutPos < WorkoutContent.WORKOUTS.size()) {
+                    if (++mWorkoutPos < WorkoutContent.MENU_ITEMS.size()) {
                         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.ting);
                         mediaPlayer.start();
-                        mWorkout = WorkoutContent.WORKOUTS.get(mWorkoutPos);
+                        mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
                         rest(getView());
                     } else {
                         finish(getView());
