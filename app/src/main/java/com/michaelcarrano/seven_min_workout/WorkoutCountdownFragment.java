@@ -1,5 +1,6 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
@@ -34,9 +35,9 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 30000;    // 30 seconds
+    private final int EXERCISE_TIME = 1000;    // 30 seconds
 
-    private final int REST_TIME = 10000;        // 10 seconds
+    private final int REST_TIME = 1000;        // 10 seconds
 
     /**
      * Keeps track of the current workout
@@ -264,6 +265,7 @@ public class WorkoutCountdownFragment extends Fragment {
     private void finish(View rootView) {
         mCountDownTimer.cancel();
 
+        // Play workout completed audio
         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.cheer3);
         mediaPlayer.start();
 
@@ -272,9 +274,9 @@ public class WorkoutCountdownFragment extends Fragment {
         info.setVisibility(View.GONE);
         mCircularProgressBar.setVisibility(View.GONE);
 
-        // display "finished"
-        TextView textView = (TextView) rootView.findViewById(R.id.workout_countdown_finished);
-        textView.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this.getActivity(), WorkoutCompleteActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 }

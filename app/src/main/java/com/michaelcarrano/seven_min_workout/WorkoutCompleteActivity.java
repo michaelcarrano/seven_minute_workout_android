@@ -1,6 +1,7 @@
 package com.michaelcarrano.seven_min_workout;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_complete);
 
+
+
         stats = getIntent().getParcelableExtra("stats_extra");
         views = new View[] {
                 findViewById(R.id.jumpingJackRepsEditText),
@@ -40,10 +43,10 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                 findViewById(R.id.sideplanksCompletedCheckBox)
         };
 
-        ExerciseStats[] eList = stats.getStats();
-        for (int i = 0; i < 12; i++) {
-            setDataField(eList[i], views[i]);
-        }
+        //ExerciseStats[] eList = stats.getStats();
+        //for (int i = 0; i < 12; i++) {
+        //    setDataField(eList[i], views[i]);
+        //}
 
     }
 

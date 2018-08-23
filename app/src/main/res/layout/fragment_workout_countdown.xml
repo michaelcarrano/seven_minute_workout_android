@@ -63,17 +63,6 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/workout_countdown_finished"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="@string/finished"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#000000"
-            android:visibility="gone"
-            tools:visibility="gone" />
-
         <com.michaelcarrano.seven_min_workout.widget.CircularProgressBar
             android:id="@+id/workout_countdown_time"
             android:layout_width="wrap_content"
