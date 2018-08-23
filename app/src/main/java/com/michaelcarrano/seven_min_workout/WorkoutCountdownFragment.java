@@ -1,6 +1,8 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.animation.LayoutTransition;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
 import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
 import com.michaelcarrano.seven_min_workout.data.Stats;
@@ -75,8 +78,15 @@ public class WorkoutCountdownFragment extends Fragment {
         // Set mWorkout to the first workout
         mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
 
-        // Initialize the stats variable
-        stats = new Stats(getActivity());
+        SharedPreferences mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        if (mPrefs.contains("stats")) { //try to get stats from shared pref
+            Gson gson = new Gson();
+            String json = mPrefs.getString("stats", "");
+            stats = gson.fromJson(json, Stats.class);
+        } else {
+            // Initialize the stats variable
+            stats = new Stats(getActivity());
+        }
     }
 
     @Override
