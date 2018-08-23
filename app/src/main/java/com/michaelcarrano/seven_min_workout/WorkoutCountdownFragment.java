@@ -98,6 +98,7 @@ public class WorkoutCountdownFragment extends Fragment {
 
         ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+
         pauseAndPlayButtonSetUp(rootView);
         return rootView;
     }
@@ -109,6 +110,15 @@ public class WorkoutCountdownFragment extends Fragment {
         mCountDownTimer.cancel();
     }
 
+    /**
+     * Creates a CountDownTimer that will begin at millisInFuture.
+     * Updates the CircularProgressBar every time the onTick is called while the timer is not paused.
+     * onFinish() will shift the View based on which is currently shown.
+     *
+     * @param millisInFuture The number of milliseconds remaining on the timer
+     * @param countDownInterval Time interval along the process to receive a callback from the onTick() method
+     * @param progressBarMax The number of milliseconds the CicularProgressBar holds at the original start of the timer
+     */
     private void setupCountDownTimer(final int millisInFuture, int countDownInterval, final int progressBarMax) {
         mCircularProgressBar.setMax(progressBarMax / 1000);
         mCountDownTimer = new CountDownTimer(millisInFuture, 10) {
@@ -180,6 +190,14 @@ public class WorkoutCountdownFragment extends Fragment {
         };
     }
 
+    /**
+     * Edits the pauseAndPlayTimer to begin in a playing state.
+     * When clicked and timer is currenly playing, the animation for the circularPrograsBar will stop and the timer as well.
+     * If clicked and the timer is paused setupCountDownTimer() will be called.
+     * Handles sound if pressed while sound is active.
+     *
+     * @param rootView The parent view for the pauseAndPlayButton
+     */
     private void pauseAndPlayButtonSetUp(View rootView) {
         final PlayPauseView playAndPause = (PlayPauseView) rootView.findViewById(R.id.play_pause_view);
         playAndPause.toggle();
