@@ -27,6 +27,8 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_complete);
 
+
+
         stats = getIntent().getParcelableExtra("stats_extra");
         views = new View[] {
                 findViewById(R.id.jumpingJackRepsEditText),
