@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFC107</color>
-    <color name="colorPrimaryDark">#FFA000</color>
-    <color name="colorAccent">#FF9800</color>
-
+    <color name="colorPrimary">#edcf2e</color>
+    <color name="colorPrimaryDark">#002456</color>
+    <color name="colorAccent">#47c746</color>
 
     <!-- ActionBar colors-->
     <color name="actionbar_text">#FFFFFF</color>
-    <color name="actionbar_background">#F39C12</color>
-    <color name="countdown_background">#bdc3c7</color>
+    <color name="actionbar_background">#64b9ee</color>
+    <color name="countdown_background">#e1c1a4</color>
 
     <!-- Workout colors -->
-    <color name="jumping_jacks_dark">#000026</color>
+    <color name="jumping_jacks_dark">#001446</color>
     <color name="jumping_jacks_light">#002456</color>
 
-    <color name="wall_sits_dark">#00093f</color>
+    <color name="wall_sits_dark">#0b295f</color>
     <color name="wall_sits_light">#0c396f</color>
 
-    <color name="push_ups_dark">#002561</color>
+    <color name="push_ups_dark">#0b4581</color>
     <color name="push_ups_light">#1c5591</color>
 
-    <color name="abdominal_crunches_dark">#004587</color>
+    <color name="abdominal_crunches_dark">#1e5597</color>
     <color name="abdominal_crunches_light">#2e75b7</color>
 
     <color name="step_ups_onto_a_chair_dark">#1365a8</color>
