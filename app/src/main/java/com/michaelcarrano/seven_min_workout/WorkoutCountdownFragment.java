@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
-import com.michaelcarrano.seven_min_workout.data.Stats;
+import com.michaelcarrano.seven_min_workout.data.ExerciseData;
 import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
@@ -67,7 +67,7 @@ public class WorkoutCountdownFragment extends Fragment {
      */
     private boolean workoutInProgress = false;
 
-    private Stats stats;
+    private ExerciseData stats;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,10 +82,10 @@ public class WorkoutCountdownFragment extends Fragment {
         if (mPrefs.contains("stats")) { //try to get stats from shared pref
             Gson gson = new Gson();
             String json = mPrefs.getString("stats", "");
-            stats = gson.fromJson(json, Stats.class);
+            stats = gson.fromJson(json, ExerciseData.class);
         } else {
             // Initialize the stats variable
-            stats = new Stats(getActivity());
+            stats = new ExerciseData(getActivity());
         }
     }
 
@@ -147,12 +147,12 @@ public class WorkoutCountdownFragment extends Fragment {
                     if (mWorkoutPos != 0) {
                         TextView lastEx = (TextView) getView().findViewById(R.id.lastExerciseTextview);
                         lastEx.setText("");
-                        ExerciseStats exercise = stats.getStats()[mWorkoutPos - 1];
+                        ExerciseStats exercise = stats.getExerciseStats()[mWorkoutPos - 1];
                         exercise.incrementWorkoutsCompleted();
                         if (isRep) {
                             EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
+                            RepExercise re = (RepExercise) exercise;
                             if (!tv.getText().toString().equals("")) {
-                                RepExercise re = (RepExercise) exercise;
                                 int reps = Integer.valueOf(tv.getText().toString());
                                 re.setCurrentReps(reps);
                                 //do this stuff upon completion
@@ -162,6 +162,8 @@ public class WorkoutCountdownFragment extends Fragment {
 //                                }
 //                                re.addToTotalReps(reps);
 //                                re.setPersoanlAvg(re.getTotalReps() / re.getWorkoutsCompleted());
+                            } else {
+                                re.setCurrentReps(0);
                             }
                         } else {
                             CheckBox cb = (CheckBox) getView().findViewById(R.id.isCompletedCheckBox);
@@ -226,7 +228,7 @@ public class WorkoutCountdownFragment extends Fragment {
         } else {
             name.setText(R.string.rest);
             if (mWorkoutPos != 0) {
-                ExerciseStats prev = stats.getStats()[mWorkoutPos - 1];
+                ExerciseStats prev = stats.getExerciseStats()[mWorkoutPos - 1];
                 TextView lastEx = (TextView) rootView.findViewById(R.id.lastExerciseTextview);
                 lastEx.setText(prev.getExerciseName());
                 if (prev instanceof TimeExercise) {
@@ -285,6 +287,9 @@ public class WorkoutCountdownFragment extends Fragment {
         mCircularProgressBar.setVisibility(View.GONE);
 
         Intent intent = new Intent(this.getActivity(), WorkoutCompleteActivity.class);
+//        intent.putExtra("stats_extra", stats);
+        String arrayAsString = new Gson().toJson(stats.getExerciseStats());
+        intent.putExtra("stats_array", arrayAsString);
         startActivity(intent);
         getActivity().finish();
     }
