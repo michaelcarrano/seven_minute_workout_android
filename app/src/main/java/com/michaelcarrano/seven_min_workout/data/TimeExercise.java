@@ -6,9 +6,6 @@ public class TimeExercise extends ExerciseStats {
     private double completedPercentage = 0;
     private boolean currentStatus = false;
 
-    public TimeExercise() {
-    }
-
     public TimeExercise(String exerciseName) {
         this.setExerciseName(exerciseName);
     }

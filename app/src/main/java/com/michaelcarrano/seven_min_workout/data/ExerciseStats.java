@@ -1,8 +1,11 @@
 package com.michaelcarrano.seven_min_workout.data;
 
-public abstract class ExerciseStats {
+public class ExerciseStats {
     private int workoutsCompleted;
     private String exerciseName = "";
+
+    public ExerciseStats() {
+    }
 
     public int getWorkoutsCompleted() {
         return workoutsCompleted;

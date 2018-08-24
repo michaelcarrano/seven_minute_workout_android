@@ -1,8 +1,6 @@
 package com.michaelcarrano.seven_min_workout;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,14 +10,12 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
-import com.michaelcarrano.seven_min_workout.data.Stats;
+import com.michaelcarrano.seven_min_workout.data.ExerciseData;
 import com.michaelcarrano.seven_min_workout.data.TimeExercise;
-
-import java.sql.Time;
 
 public class WorkoutCompleteActivity extends AppCompatActivity {
 
-    private Stats stats = null;
+    private ExerciseData exerciseData = new ExerciseData();
     private ExerciseStats[] eList;
     private View[] views = null;
     @Override
@@ -27,9 +23,10 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_complete);
 
-
-
-        stats = getIntent().getParcelableExtra("stats_extra");
+        String json = getIntent().getStringExtra("stats_array");
+        ExerciseStats[] statsArray = new Gson().fromJson(json, ExerciseStats[].class);
+        eList = statsArray;
+        exerciseData.setExerciseStats(statsArray);
         views = new View[] {
                 findViewById(R.id.jumpingJackRepsEditText),
                 findViewById(R.id.wallsitsCompletedCheckBox),
@@ -44,20 +41,24 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                 findViewById(R.id.pushuprotationsRepsEditText),
                 findViewById(R.id.sideplanksCompletedCheckBox)
         };
-        eList = stats.getStats();
 
         for (int i = 0; i < 12; i++) {
-            setDataField(eList[i], views[i]);
+            //1,7,11
+            if (i ==1 || i == 7 || i == 11) {
+                setDataField(eList[i], views[i], false);
+            } else {
+                setDataField(eList[i], views[i], true);
+            }
         }
 
     }
 
-    private void setDataField(ExerciseStats exercise, View view) {
-        if (exercise instanceof RepExercise) {
+    private void setDataField(ExerciseStats exercise, View view, boolean isRep) {
+        if (isRep) {
             EditText et = (EditText) view;
             RepExercise re = (RepExercise) exercise;
             et.setText(re.getCurrentReps());
-        } else if (exercise instanceof  TimeExercise) {
+        } else {
             CheckBox cb = (CheckBox) view;
             TimeExercise te = (TimeExercise) exercise;
             cb.setChecked(te.isCurrentStatus());
@@ -84,7 +85,7 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(stats);
+        String json = gson.toJson(exerciseData);
         prefsEditor.putString("stats", json);
         prefsEditor.commit();
     }
