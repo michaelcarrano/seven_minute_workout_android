@@ -11,13 +11,15 @@
         android:id="@+id/countdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/workout_countdown_info_container"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:animateLayoutChanges="true"
-        android:gravity="top|center_horizontal"
-        android:orientation="vertical">
+        android:gravity="center_horizontal|center"
+        android:orientation="horizontal">
 
         <com.michaelcarrano.seven_min_workout.widget.CircularProgressBar
             android:id="@+id/workout_countdown_time"
@@ -25,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="28sp"
+            android:textSize="50sp"
             circularprogress:bgColor="#000"
             circularprogress:bgStrokeWidth="10dp"
             circularprogress:diameter="180dp"
@@ -36,8 +38,9 @@
 
         <com.ohoussein.playpause.PlayPauseView
             android:id="@+id/play_pause_view"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="15dp"
             android:clickable="true"
             android:foreground="?android:selectableItemBackground"
             app:fill_color="#e1e1e1"
@@ -47,11 +50,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/stats_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_below="@+id/countdown"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp">
@@ -60,15 +65,12 @@
             android:id="@+id/lastExerciseTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_centerHorizontal="false"
             android:textSize="24sp" />
 
         <LinearLayout
             android:id="@+id/repExerciseStats"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="false"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -161,8 +163,7 @@
         <LinearLayout
             android:id="@+id/timeExerciseStats"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="false"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -174,10 +175,11 @@
 
                 <CheckBox
                     android:id="@+id/isCompletedCheckBox"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:text="@string/is_completed"
                     android:textSize="24sp" />
@@ -213,12 +215,13 @@
         android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:background="@color/white"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/workout_countdown_info"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"

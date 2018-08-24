@@ -127,6 +127,7 @@ public class CircularProgressBar extends View {
             this.mTextPaint.setAntiAlias(true);
             this.mTextPaint.setStyle(Style.STROKE);
             this.mTextPaint.setTextAlign(Align.CENTER);
+            this.mTextPaint.setFakeBoldText(true);
             this.mTextPaint.setTextSize(textSize);
         } finally {
             args.recycle();
