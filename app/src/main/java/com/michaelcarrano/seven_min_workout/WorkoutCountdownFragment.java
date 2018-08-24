@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.michaelcarrano.seven_min_workout.Utils.RuntimeTypeAdapterFactory;
 import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
 import com.michaelcarrano.seven_min_workout.data.ExerciseData;
@@ -31,7 +33,8 @@ import com.ohoussein.playpause.PlayPauseView;
  * Created by michaelcarrano on 12/6/13.
  */
 public class WorkoutCountdownFragment extends Fragment {
-    private boolean marioMediaPlayerIsPaused = false;
+    private RuntimeTypeAdapterFactory<ExerciseStats> runtimeTypeAdapterFactory;
+	private boolean marioMediaPlayerIsPaused = false;
     private boolean isPaused = false;
     private boolean isResting = true;
     private int secondOnTimer = 0;
@@ -80,11 +83,17 @@ public class WorkoutCountdownFragment extends Fragment {
         // Set mWorkout to the first workout
         mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
 
+
+        runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
+                .of(ExerciseStats.class, "type")
+                .registerSubtype(RepExercise.class, "rep")
+                .registerSubtype(TimeExercise.class, "time");
+
         SharedPreferences mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         if (mPrefs.contains("stats")) { //try to get stats from shared pref
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
             String json = mPrefs.getString("stats", "");
-            stats = gson.fromJson(json, ExerciseData.class);
+            stats.setExerciseStats(gson.fromJson(json, ExerciseStats[].class));
         } else {
             // Initialize the stats variable
             stats = new ExerciseData(getActivity());
@@ -315,9 +324,15 @@ public class WorkoutCountdownFragment extends Fragment {
         mCircularProgressBar.setVisibility(View.GONE);
 
         Intent intent = new Intent(this.getActivity(), WorkoutCompleteActivity.class);
-//        intent.putExtra("stats_extra", stats);
-        String arrayAsString = new Gson().toJson(stats.getExerciseStats());
-        intent.putExtra("stats_array", arrayAsString);
+
+
+
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
+        String json = gson.toJson(stats.getExerciseStats());
+
+//        String arrayAsString = new Gson().toJson(stats.getExerciseStats());
+
+        intent.putExtra("stats_array", json);
         startActivity(intent);
         getActivity().finish();
     }
