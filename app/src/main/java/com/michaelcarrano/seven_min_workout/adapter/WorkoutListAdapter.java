@@ -1,5 +1,6 @@
 package com.michaelcarrano.seven_min_workout.adapter;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -71,7 +74,6 @@ public class WorkoutListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         MenuItem menuItem = (MenuItem) getItem(position);
         if (menuItem instanceof Workout) {
 
@@ -120,6 +122,10 @@ public class WorkoutListAdapter extends BaseAdapter {
             //    holder = (DescriptionViewHolder) convertView.getTag();
             //}
             holder.workout_detail.setText(description.content);
+            convertView.setTranslationZ(-1f);
+            Animation animation = AnimationUtils
+                    .loadAnimation(convertView.getContext(), R.anim.down_from_top);
+            convertView.startAnimation(animation);
             return convertView;
         }
     }
