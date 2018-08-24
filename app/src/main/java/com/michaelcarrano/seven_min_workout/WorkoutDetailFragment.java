@@ -1,17 +1,22 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 
 /**
@@ -55,39 +60,39 @@ public class WorkoutDetailFragment extends Fragment {
             content.setText(mWorkout.content);
         }
 
-        video();
+       // video();
 
         return rootView;
     }
 
     // TODO: Handle rotation so video does not start from beginning.
     public void video() {
-        YouTubePlayerSupportFragment youTubePlayerSupportFragment = YouTubePlayerSupportFragment
-                .newInstance();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.youtube_fragment, youTubePlayerSupportFragment).commit();
+//        YouTubePlayerSupportFragment youTubePlayerSupportFragment = YouTubePlayerSupportFragment
+//                .newInstance();
+//        getActivity().getSupportFragmentManager().beginTransaction()
+//                .add(R.id.youtube_fragment, youTubePlayerSupportFragment).commit();
 
-        youTubePlayerSupportFragment
-                .initialize(BuildConfig.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
-                    @Override
-                    public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                        YouTubePlayer youTubePlayer, boolean b) {
-                        if (!b) {
-                            youTubePlayer.cueVideo(mWorkout.video);
-                        }
-                    }
-
-                    @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                        YouTubeInitializationResult youTubeInitializationResult) {
-                        if (youTubeInitializationResult.isUserRecoverableError()) {
-                            youTubeInitializationResult.getErrorDialog(getActivity(), 1).show();
-                        } else {
-                            String errorMessage = String.format(getString(R.string.error_player),
-                                    youTubeInitializationResult.toString());
-                            Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+//        youTubePlayerSupportFragment
+//                .initialize(BuildConfig.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+//                    @Override
+//                    public void onInitializationSuccess(YouTubePlayer.Provider provider,
+//                                                        YouTubePlayer youTubePlayer, boolean b) {
+//                        if (!b) {
+//                            youTubePlayer.cueVideo(mWorkout.video);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onInitializationFailure(YouTubePlayer.Provider provider,
+//                                                        YouTubeInitializationResult youTubeInitializationResult) {
+//                        if (youTubeInitializationResult.isUserRecoverableError()) {
+//                            youTubeInitializationResult.getErrorDialog(getActivity(), 1).show();
+//                        } else {
+//                            String errorMessage = String.format(getString(R.string.error_player),
+//                                    youTubeInitializationResult.toString());
+//                            Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
     }
 }

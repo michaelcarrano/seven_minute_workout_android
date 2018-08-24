@@ -2,18 +2,29 @@ package com.michaelcarrano.seven_min_workout.adapter;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.michaelcarrano.seven_min_workout.BuildConfig;
 import com.michaelcarrano.seven_min_workout.R;
 import com.michaelcarrano.seven_min_workout.WorkoutDetailFragment;
@@ -36,6 +47,11 @@ public class WorkoutListAdapter extends BaseAdapter {
     public WorkoutListAdapter(Activity ctx) {
         activity = ctx;
         this.mLayoutInflater = ctx.getLayoutInflater();
+        addListenerToButton();
+    }
+
+    private void addListenerToButton() {
+
     }
 
     @Override
@@ -85,23 +101,82 @@ public class WorkoutListAdapter extends BaseAdapter {
             return convertView;
         }
         else {
-            DescriptionViewHolder holder;
+            final DescriptionViewHolder holder;
             final Description description = (Description) menuItem;
 
             //if (convertView == null) {
-                convertView = mLayoutInflater.inflate(R.layout.fragment_workout_detail, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.fragment_workout_detail, parent, false);
 
-                holder = new DescriptionViewHolder();
-                holder.youtube_fragment = (FrameLayout) convertView.findViewById(R.id.youtube_fragment);
-                holder.workout_detail = (TextView) convertView.findViewById(R.id.workout_detail);
+            holder = new DescriptionViewHolder();
 
-                convertView.setTag(holder);
+            createYoutubeThumbnailView(description);
+            manageYoutubePlayButtonOnThumbnail(convertView, parent);
+
+
+            holder.workout_detail = (TextView) convertView.findViewById(R.id.workout_detail);
+
+            convertView.setTag(holder);
             //} else {
             //    holder = (DescriptionViewHolder) convertView.getTag();
             //}
             holder.workout_detail.setText(description.content);
             return convertView;
         }
+    }
+
+    private void manageYoutubePlayButtonOnThumbnail(View convertView, ViewGroup parent) {
+        ImageButton playButton = (ImageButton) convertView.findViewById(R.id.playVideoButton);
+
+        final View finalConvertView = convertView;
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                YouTubeThumbnailView thumbnailView = (YouTubeThumbnailView) ((RelativeLayout) ((LinearLayout) finalConvertView.findViewById(R.id.detailLinearLayout)).getChildAt(0)).getChildAt(0);
+                Intent intent = YouTubeStandalonePlayer.createVideoIntent(activity,
+                        BuildConfig.YOUTUBE_API_KEY,
+                        thumbnailView.getTag().toString(),//video id
+                        0,     //after this time, video will start automatically
+                        true,               //autoplay or not
+                        false);             //lightbox mode or not; show the video in a small box
+                activity.startActivity(intent);
+            }
+        });
+    }
+
+    private void createYoutubeThumbnailView(Description description) {
+        final YouTubeThumbnailView ytthumbnail = new YouTubeThumbnailView(activity);
+        ytthumbnail.setTag(description.getVideo());
+        ytthumbnail.initialize(BuildConfig.YOUTUBE_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
+
+                youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
+                    @Override
+                    public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
+                        RelativeLayout youtubeThumbnailLayoutParent = (RelativeLayout) activity.findViewById(R.id.relWithButton);
+                        if(youtubeThumbnailLayoutParent.getChildCount() > 1){
+                            youtubeThumbnailLayoutParent.getChildAt(0).setVisibility(View.GONE);
+                            youtubeThumbnailLayoutParent.removeViewAt(0);
+                        }
+                        ytthumbnail.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+                        youtubeThumbnailLayoutParent.addView(ytthumbnail,0);
+                        youtubeThumbnailLayoutParent.findViewById(R.id.relWithButton).setVisibility(View.VISIBLE);
+
+                    }
+
+                    @Override
+                    public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
+
+                    }
+                });
+                youTubeThumbnailLoader.setVideo(ytthumbnail.getTag().toString());
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
     }
 
     private static class ViewHolder {

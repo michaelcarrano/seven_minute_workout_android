@@ -58,6 +58,11 @@ public class WorkoutContent {
 
         public int light;
 
+        /**
+         * A Workout representing information related to the workout item.
+         */
+
+
         public Description(@NonNull String id,
                            @NonNull String name,
                            @NonNull String content,
@@ -71,12 +76,12 @@ public class WorkoutContent {
             this.dark = dark;
             this.light = light;
         }
+        public String getVideo() {
+            return video;
+        }
     }
-
-    /**
-     * A Workout representing information related to the workout item.
-     */
     public static class Workout extends MenuItem {
+
 
         public String id;
 
