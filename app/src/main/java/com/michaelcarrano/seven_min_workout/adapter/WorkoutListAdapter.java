@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -122,7 +123,9 @@ public class WorkoutListAdapter extends BaseAdapter {
             //    holder = (DescriptionViewHolder) convertView.getTag();
             //}
             holder.workout_detail.setText(description.content);
-            convertView.setTranslationZ(-1f);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                convertView.setTranslationZ(-1f);
+            }
             Animation animation = AnimationUtils
                     .loadAnimation(convertView.getContext(), R.anim.down_from_top);
             convertView.startAnimation(animation);
@@ -160,13 +163,16 @@ public class WorkoutListAdapter extends BaseAdapter {
                     @Override
                     public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
                         RelativeLayout youtubeThumbnailLayoutParent = (RelativeLayout) activity.findViewById(R.id.relWithButton);
-                        if(youtubeThumbnailLayoutParent.getChildCount() > 1){
-                            youtubeThumbnailLayoutParent.getChildAt(0).setVisibility(View.GONE);
-                            youtubeThumbnailLayoutParent.removeViewAt(0);
+                        if(youtubeThumbnailLayoutParent != null){
+
+                            if( youtubeThumbnailLayoutParent.getChildCount() > 1){
+                                youtubeThumbnailLayoutParent.getChildAt(0).setVisibility(View.GONE);
+                                youtubeThumbnailLayoutParent.removeViewAt(0);
+                            }
+                            ytthumbnail.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+                            youtubeThumbnailLayoutParent.addView(ytthumbnail,0);
+                            youtubeThumbnailLayoutParent.findViewById(R.id.relWithButton).setVisibility(View.VISIBLE);
                         }
-                        ytthumbnail.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-                        youtubeThumbnailLayoutParent.addView(ytthumbnail,0);
-                        youtubeThumbnailLayoutParent.findViewById(R.id.relWithButton).setVisibility(View.VISIBLE);
 
                     }
 
