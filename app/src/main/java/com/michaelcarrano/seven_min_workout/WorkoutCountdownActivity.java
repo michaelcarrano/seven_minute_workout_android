@@ -4,6 +4,7 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -46,19 +47,21 @@ public class WorkoutCountdownActivity extends BaseActivity {
         LinearLayout ll = (LinearLayout) findViewById(R.id.workout_countdown_info_container);
         ViewGroup.LayoutParams params = ll.getLayoutParams();
         if (!textDisplayed) {
-            params.height = params.height + 800;
+            params.height = params.height + 900;
             ll.setLayoutParams(params);
             TextView tv = new TextView(this);
             applyText(tv);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 600, 1f);
+            layoutParams.setMargins(40, 0, 40, 0);
             tv.setLayoutParams(layoutParams);
-            layoutParams.setMargins(50, 0, 50, 0);
             tv.setTextSize(20);
+            tv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            tv.setGravity(Gravity.CENTER);
             ll.addView(tv);
             textDisplayed = true;
         } else {
             ll.removeView(ll.getChildAt(ll.getChildCount() - 1));
-            params.height = params.height - 800;
+            params.height = params.height - 900;
             ll.setLayoutParams(params);
             textDisplayed = false;
         }
@@ -66,7 +69,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
 
     public void applyText(TextView tv) {
         String text = "";
-        switch (((TextView)findViewById(R.id.workout_countdown_name)).getText().toString()) {
+        switch (((TextView) findViewById(R.id.workout_countdown_name)).getText().toString()) {
             case "Jumping jacks":
                 text = getString(R.string.jumping_jacks_desc);
                 break;
@@ -104,7 +107,6 @@ public class WorkoutCountdownActivity extends BaseActivity {
                 text = getString(R.string.side_planks_desc);
                 break;
         }
-
         tv.setText(text);
 
     }

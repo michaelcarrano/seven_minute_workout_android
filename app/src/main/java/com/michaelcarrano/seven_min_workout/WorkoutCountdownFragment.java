@@ -80,9 +80,11 @@ public class WorkoutCountdownFragment extends Fragment {
         // Retain instance on device rotation
         setRetainInstance(true);
 
+        // Remove all descriptions from the workout list
+        WorkoutContent.removeDescriptions();
+
         // Set mWorkout to the first workout
         mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
-
 
         runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(ExerciseStats.class, "type")

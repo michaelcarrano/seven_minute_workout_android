@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
@@ -215,7 +215,6 @@
         android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:background="@color/white"
-        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
