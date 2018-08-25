@@ -2,12 +2,15 @@
 <resources>
     <color name="colorPrimary">#edcf2e</color>
     <color name="colorPrimaryDark">#002456</color>
-    <color name="colorAccent">#47c746</color>
+    <color name="colorAccent">#64b9ee</color>
 
     <!-- ActionBar colors-->
     <color name="actionbar_text">#FFFFFF</color>
     <color name="actionbar_background">#64b9ee</color>
     <color name="countdown_background">#e1c1a4</color>
+
+    <!-- Fab colors-->
+    <color name="fab">#47c746</color>
 
     <!-- Workout colors -->
     <color name="jumping_jacks_dark">#001446</color>
