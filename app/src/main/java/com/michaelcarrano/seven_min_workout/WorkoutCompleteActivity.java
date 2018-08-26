@@ -1,5 +1,6 @@
 package com.michaelcarrano.seven_min_workout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
 import com.michaelcarrano.seven_min_workout.data.RepExercise;
 import com.michaelcarrano.seven_min_workout.data.ExerciseData;
 import com.michaelcarrano.seven_min_workout.data.TimeExercise;
+
+import java.util.Arrays;
 
 public class WorkoutCompleteActivity extends AppCompatActivity {
 
@@ -87,9 +90,11 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                 //best
                 for (ExerciseStats e:
                         eList) {
+                    e.incrementWorkoutsCompleted();
                     if (e instanceof RepExercise) {
                         RepExercise re = (RepExercise) e;
-                        re.setCompletedLastTime(re.getCurrentReps());
+                        EditText repEditText = (EditText) views[Arrays.asList(eList).indexOf(e)];
+                        re.setCompletedLastTime(Integer.valueOf(repEditText.getText() + ""));
                         re.setTotalReps(re.getTotalReps()+re.getCompletedLastTime());
                         re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
                         if (re.getCompletedLastTime() > re.getPersonalBest()) {
@@ -97,21 +102,24 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                         }
                     } else if (e instanceof  TimeExercise) {
                         TimeExercise te = (TimeExercise) e;
-                        te.setCompletedLastTime(te.isCurrentStatus());
-                        if (te.isCurrentStatus()) {
+                        CheckBox isCompleteCheckBox = (CheckBox) views[Arrays.asList(eList).indexOf(e)];
+                        te.setCompletedLastTime(isCompleteCheckBox.isChecked());
+                        if (te.isCompletedLastTime()) {
                             te.setTotalCompleted(te.getTotalCompleted() + 1);
                         }
-                        te.setCompletedPercentage((te.getTotalCompleted() / te.getWorkoutsCompleted()) * 100);
+                        te.setCompletedPercentage(((double)te.getTotalCompleted() / (double)te.getWorkoutsCompleted()) * 100);
                     }
                 }
 
                 //shared preferences
-                SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences  mPrefs = getSharedPreferences("exercise_stats", MODE_PRIVATE);
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
                 String json = gson.toJson(exerciseData.getExerciseStats());
                 prefsEditor.putString("stats", json);
                 prefsEditor.commit();
+
+                // TODO go back to main screen
             }
         });
     }

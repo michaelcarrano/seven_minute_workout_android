@@ -29,6 +29,9 @@ import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
 import com.michaelcarrano.seven_min_workout.widget.CircularProgressBar;
 import com.ohoussein.playpause.PlayPauseView;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 /**
  * Created by michaelcarrano on 12/6/13.
  */
@@ -72,7 +75,7 @@ public class WorkoutCountdownFragment extends Fragment {
      */
     private boolean workoutInProgress = false;
 
-    private ExerciseData stats;
+    private ExerciseData stats = new ExerciseData();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class WorkoutCountdownFragment extends Fragment {
                 .registerSubtype(RepExercise.class, "rep")
                 .registerSubtype(TimeExercise.class, "time");
 
-        SharedPreferences mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences mPrefs = getActivity().getSharedPreferences("exercise_stats", Context.MODE_PRIVATE);
         if (mPrefs.contains("stats")) { //try to get stats from shared pref
             Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
             String json = mPrefs.getString("stats", "");
@@ -171,7 +174,6 @@ public class WorkoutCountdownFragment extends Fragment {
                         TextView lastEx = (TextView) getView().findViewById(R.id.lastExerciseTextview);
                         lastEx.setText("");
                         ExerciseStats exercise = stats.getExerciseStats()[mWorkoutPos - 1];
-                        exercise.incrementWorkoutsCompleted();
                         if (isRep) {
                             EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
                             RepExercise re = (RepExercise) exercise;
@@ -276,7 +278,8 @@ public class WorkoutCountdownFragment extends Fragment {
                     CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
                     cb.setChecked(false);
                     TextView compPerc = (TextView) rootView.findViewById(R.id.completePercentageStatTextView);
-                    compPerc.setText("%" + te.getCompletedPercentage());
+                    NumberFormat formatter = new DecimalFormat("#0.0");
+                    compPerc.setText("%" + formatter.format(te.getCompletedPercentage()));
                     isRep = false;
                 } else if (prev instanceof RepExercise) {
                     RepExercise re = (RepExercise) prev;
