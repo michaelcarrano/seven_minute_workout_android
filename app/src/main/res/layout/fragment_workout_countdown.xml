@@ -216,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/complete_percentage"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="20sp" />
 
                 <TextView
@@ -224,6 +225,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
