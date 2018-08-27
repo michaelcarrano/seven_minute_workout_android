@@ -107,7 +107,7 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                         if (te.isCompletedLastTime()) {
                             te.setTotalCompleted(te.getTotalCompleted() + 1);
                         }
-                        te.setCompletedPercentage(((double)te.getTotalCompleted() / (double)te.getWorkoutsCompleted()) * 100);
+                        te.setCompletedPercentage((int)(((double)te.getTotalCompleted() / (double)te.getWorkoutsCompleted()) * 100));
                     }
                 }
 
