@@ -66,9 +66,9 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 2000;     // 30 seconds
+    private final int EXERCISE_TIME = 30000;     // 30 seconds
 
-    private final int REST_TIME = 2000;         // 10 seconds
+    private final int REST_TIME = 10000;         // 10 seconds
 
     /**
      * Keeps track of the current workout
