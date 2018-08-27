@@ -66,9 +66,9 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 1000;     // 30 seconds
+    private final int EXERCISE_TIME = 30000;     // 30 seconds
 
-    private final int REST_TIME = 1000;         // 10 seconds
+    private final int REST_TIME = 10000;         // 10 seconds
 
     /**
      * Keeps track of the current workout
@@ -187,8 +187,8 @@ public class WorkoutCountdownFragment extends Fragment {
                 if (!isPaused) {
                     if (isResting) {
                         REMAINING_TIME = (millisUntilFinished / 1000.0f);
-                        if (REMAINING_TIME < 3.59 && REMAINING_TIME > 3.49) {
-                            marioMediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.mario_cart_start_sound);
+                        if (REMAINING_TIME < 3.05 && REMAINING_TIME > 2.94) {
+                            marioMediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.exercise_start);
                             marioMediaPlayer.start();
                         }
                         mCircularProgressBar.setProgress(REMAINING_TIME);

@@ -44,6 +44,7 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                 startActivity(workoutIntent);
             }
         });
+        addResumeFab();
         workoutListView = (ListView) findViewById(android.R.id.list);
     }
 

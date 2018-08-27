@@ -141,4 +141,6 @@
     <string name="complete_percentage">Success Rate: </string>
     <string name="complete_workout">Complete Workout</string>
 
+    <string name="resume">Resume</string>
+
 </resources>
