@@ -5,7 +5,9 @@
     android:id="@+id/workout_countdown"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wood_background">
+    android:background="@drawable/wood_background"
+    android:focusable="false"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         android:id="@+id/countdown"
@@ -43,9 +45,9 @@
             android:layout_marginRight="15dp"
             android:clickable="true"
             android:foreground="?android:selectableItemBackground"
-            app:fill_color="#e1e1e1"
-            app:pause_bg="#00a2ed"
-            app:play_bg="#990000" />
+            app:fill_color="@color/light_gray"
+            app:pause_bg="@color/stop_sign_red"
+            app:play_bg="@color/fab" />
 
     </LinearLayout>
 
@@ -60,6 +62,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/stats_background"
+        android:focusable="false"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -76,6 +79,7 @@
             android:id="@+id/repExerciseStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -97,11 +101,16 @@
 
                 <EditText
                     android:id="@+id/repsCompletedPlainText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/all_stats_text_background"
                     android:gravity="end"
                     android:inputType="number"
+                    android:maxLength="3"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    android:selectAllOnFocus="true"
                     android:textColor="@color/colorPrimaryDark"
                     android:textColorLink="@color/colorPrimaryDark"
                     android:textSize="24sp" />

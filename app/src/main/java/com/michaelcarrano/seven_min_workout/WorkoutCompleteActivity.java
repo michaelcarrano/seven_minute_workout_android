@@ -119,7 +119,7 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                 prefsEditor.putString("stats", json);
                 prefsEditor.commit();
 
-                // TODO go back to main screen
+                finish();
             }
         });
     }

@@ -54,6 +54,7 @@
     <string name="lunges_colon">Lunges:</string>
     <string name="push_ups_and_rotations_colon">Push-ups and rotations:</string>
     <string name="side_planks_colon">Side planks:</string>
+    <string name="high_knees_colon">High knees:</string>
 
     <!-- Workout description -->
     <string name="jumping_jacks_desc">Start with your feet together and arms at your sides. Slightly bend your knees and jump straight up. As you are jumping kick your legs out to shoulder width and bring your hands over your head to form a "star".</string>
@@ -128,16 +129,16 @@
         <item>@string/side_planks_video</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Statistics Boxes -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="repText">Reps Completed: </string>
     <string name="avg_string">Average: </string>
     <string name="best_text">Personal Best: </string>
     <string name="is_completed">Completed: </string>
-    <string name="completed_last">Completed Last Time: </string>
+    <string name="completed_last">Previous: </string>
     <string name="workout_summary"><b>Workout Summary</b></string>
     <string name="high_knees">High knees</string>
-    <string name="complete_percentage">Complete Percentage: </string>
+    <string name="complete_percentage">Success Rate: </string>
     <string name="complete_workout">Complete Workout</string>
 
 </resources>

@@ -85,5 +85,7 @@
     <color name="gray">#CCCCCC</color>
 
     <color name="dark_gray">#626268</color>
+    <color name="light_gray">#eee</color>
+    <color name="stop_sign_red">#CC0202</color>
 
 </resources>
