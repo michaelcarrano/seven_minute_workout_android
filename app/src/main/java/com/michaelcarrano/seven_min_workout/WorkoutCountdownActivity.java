@@ -59,6 +59,8 @@ public class WorkoutCountdownActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "Countdown Activity", Toast.LENGTH_LONG).show();
         }
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -104,6 +106,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
 
     /**
      * Called when the bottom bar layout in the workoutCountdownFragment is tapped and animates up or down depending on the current position.
+     *
      * @param view
      */
     public void layoutClicked(View view) {
@@ -146,6 +149,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
 
     /**
      * Helper method that applies exercise instruction text inside the bottom bar in the WorkoutCountdownFragment.
+     *
      * @param tv
      */
     private void applyText(TextView tv, String string) {
