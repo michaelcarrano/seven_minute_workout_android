@@ -369,8 +369,8 @@ public class WorkoutCountdownFragment extends Fragment {
         }
         TimeExercise te = (TimeExercise) usingStat;
         statsLayout = timeExerciseStats;
-        NumberFormat formatter = new DecimalFormat("#0.0");
-        completePercentageStatTextView.setText("%" + formatter.format(te.getCompletedPercentage()));
+        NumberFormat formatter = new DecimalFormat("#0");
+        completePercentageStatTextView.setText(formatter.format(te.getCompletedPercentage()) + "%");
     }
 
     private void exercise(final View rootView) {
