@@ -66,9 +66,9 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 30000;     // 30 seconds
+    private final int EXERCISE_TIME = 2000;     // 30 seconds
 
-    private final int REST_TIME = 10000;         // 10 seconds
+    private final int REST_TIME = 2000;         // 10 seconds
 
     /**
      * Keeps track of the current workout
@@ -304,6 +304,10 @@ public class WorkoutCountdownFragment extends Fragment {
         REMAINING_TIME = REST_TIME / 1000.0f;
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
         mCountDownTimer.start();
+
+        if (((WorkoutCountdownActivity)getActivity()).isTextDisplayed()) {
+            ((WorkoutCountdownActivity)getActivity()).closeBar();
+        }
     }
 
     private void setStatsPanel(View rootView, boolean isRestCalling) {
