@@ -31,15 +31,22 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_complete);
 
+        //get json string of stats array
         String json = getIntent().getStringExtra("stats_array");
 
+        // type adapter to remember the type of each ExerciseStats in the array
         runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
                 .of(ExerciseStats.class, "type")
                 .registerSubtype(RepExercise.class, "rep")
                 .registerSubtype(TimeExercise.class, "time");
+        // Use Gson library to get array from string in intent
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
         eList = gson.fromJson(json, ExerciseStats[].class);
+
+        // set the array of the ExerciseData object
         exerciseData.setExerciseStats(eList);
+
+        // get the views for each exercise
         views = new View[] {
                 findViewById(R.id.jumpingJackRepsEditText),
                 findViewById(R.id.wallsitsCompletedCheckBox),
@@ -61,19 +68,20 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
         CheckBox cb;
         TimeExercise te;
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < eList.length; i++) {
             //1,7,11
-            if (i ==1 || i == 7 || i == 11) {
+            if (eList[i] instanceof TimeExercise) { // set checkbox for each time exercise
                 cb = (CheckBox) views[i];
                 te = (TimeExercise) eList[i];
                 cb.setChecked(te.isCurrentStatus());
-            } else {
+            } else { // set the number EditText to the value of reps entered during workout
                 et = (EditText) views[i];
                 re = (RepExercise) eList[i];
                 et.setText(re.getCurrentReps() + "");
             }
         }
 
+        // set on click for Complete Workout button
         Button completeBtn = (Button) findViewById(R.id.completeBtn);
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,26 +102,34 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                     if (e instanceof RepExercise) {
                         RepExercise re = (RepExercise) e;
                         EditText repEditText = (EditText) views[Arrays.asList(eList).indexOf(e)];
+                        // set previous stat
                         re.setCompletedLastTime(Integer.valueOf(repEditText.getText() + ""));
+                        // add to total reps completed
                         re.setTotalReps(re.getTotalReps()+re.getCompletedLastTime());
+                        // calculate average reps for exercise per workout with total reps done and workouts completed
                         re.setPersoanlAvg(re.getTotalReps()/re.getWorkoutsCompleted());
+                        // set best if most recent is higher
                         if (re.getCompletedLastTime() > re.getPersonalBest()) {
                             re.setPersonalBest(re.getCompletedLastTime());
                         }
                     } else if (e instanceof  TimeExercise) {
                         TimeExercise te = (TimeExercise) e;
                         CheckBox isCompleteCheckBox = (CheckBox) views[Arrays.asList(eList).indexOf(e)];
+                        // set complete last time
                         te.setCompletedLastTime(isCompleteCheckBox.isChecked());
+                        // increment total successes if current is success
                         if (te.isCompletedLastTime()) {
                             te.setTotalCompleted(te.getTotalCompleted() + 1);
                         }
-                        te.setCompletedPercentage(((double)te.getTotalCompleted() / (double)te.getWorkoutsCompleted()) * 100);
+                        // calculate success rate with total successes and total workouts completed
+                        te.setCompletedPercentage((int)(((double)te.getTotalCompleted() / (double)te.getWorkoutsCompleted()) * 100));
                     }
                 }
 
                 //shared preferences
                 SharedPreferences  mPrefs = getSharedPreferences("exercise_stats", MODE_PRIVATE);
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                // use Gson to turn array of stats into Json string
                 Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
                 String json = gson.toJson(exerciseData.getExerciseStats());
                 prefsEditor.putString("stats", json);

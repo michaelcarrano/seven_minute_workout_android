@@ -35,6 +35,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
 
     WorkoutCountdownFragment fragment;
     private boolean textDisplayed = false;
+    private LinearLayout workout_countdown_info_container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +59,6 @@ public class WorkoutCountdownActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "Countdown Activity", Toast.LENGTH_LONG).show();
         }
-    }
-
     @Override
     public void onBackPressed() {
 
@@ -103,33 +102,55 @@ public class WorkoutCountdownActivity extends BaseActivity {
         super.onBackPressed();
     }
 
+    /**
+     * Called when the bottom bar layout in the workoutCountdownFragment is tapped and animates up or down depending on the current position.
+     * @param view
+     */
     public void layoutClicked(View view) {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.workout_countdown_info_container);
-        ViewGroup.LayoutParams params = ll.getLayoutParams();
-        if (!textDisplayed) {
+        workout_countdown_info_container = (LinearLayout) findViewById(R.id.workout_countdown_info_container);
+        ViewGroup.LayoutParams params = workout_countdown_info_container.getLayoutParams();
+        String text = ((TextView) findViewById(R.id.workout_countdown_name)).getText().toString();
+        if (!textDisplayed && !(text.equals("Get Ready") || text.equals("Rest"))) {
             params.height = params.height + 900;
-            ll.setLayoutParams(params);
-            TextView tv = new TextView(this);
-            applyText(tv);
+            workout_countdown_info_container.setLayoutParams(params);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 600, 1f);
             layoutParams.setMargins(40, 0, 40, 0);
-            tv.setLayoutParams(layoutParams);
-            tv.setTextSize(20);
-            tv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-            tv.setGravity(Gravity.CENTER);
-            ll.addView(tv);
+            TextView textView = new TextView(this);
+            applyText(textView, text);
+            textView.setLayoutParams(layoutParams);
+            textView.setTextSize(20);
+            textView.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            textView.setGravity(Gravity.CENTER);
+            workout_countdown_info_container.addView(textView);
             textDisplayed = true;
+        } else if (text.equals("Get Ready") || text.equals("Rest")) {
+            // Lock bar
         } else {
-            ll.removeView(ll.getChildAt(ll.getChildCount() - 1));
+            workout_countdown_info_container.removeView(workout_countdown_info_container.getChildAt(workout_countdown_info_container.getChildCount() - 1));
             params.height = params.height - 900;
-            ll.setLayoutParams(params);
+            workout_countdown_info_container.setLayoutParams(params);
             textDisplayed = false;
         }
     }
 
-    public void applyText(TextView tv) {
+    /**
+     * Closes the bottom bar in the WorkoutCountdownFragment when entering a rest stage.
+     */
+    public void closeBar() {
+        ViewGroup.LayoutParams params = workout_countdown_info_container.getLayoutParams();
+        workout_countdown_info_container.removeView(workout_countdown_info_container.getChildAt(workout_countdown_info_container.getChildCount() - 1));
+        params.height = params.height - 900;
+        workout_countdown_info_container.setLayoutParams(params);
+        textDisplayed = false;
+    }
+
+    /**
+     * Helper method that applies exercise instruction text inside the bottom bar in the WorkoutCountdownFragment.
+     * @param tv
+     */
+    private void applyText(TextView tv, String string) {
         String text = "";
-        switch (((TextView) findViewById(R.id.workout_countdown_name)).getText().toString()) {
+        switch (string) {
             case "Jumping jacks":
                 text = getString(R.string.jumping_jacks_desc);
                 break;
@@ -168,6 +189,10 @@ public class WorkoutCountdownActivity extends BaseActivity {
                 break;
         }
         tv.setText(text);
+    }
+
+    public boolean isTextDisplayed() {
+        return textDisplayed;
     }
 
 }

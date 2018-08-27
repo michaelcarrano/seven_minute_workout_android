@@ -339,6 +339,10 @@ public class WorkoutCountdownFragment extends Fragment {
         REMAINING_TIME = REST_TIME / 1000.0f;
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
         mCountDownTimer.start();
+
+        if (((WorkoutCountdownActivity)getActivity()).isTextDisplayed()) {
+            ((WorkoutCountdownActivity)getActivity()).closeBar();
+        }
     }
 
     private void setStatsPanel(View rootView, boolean isRestCalling) {
@@ -404,8 +408,7 @@ public class WorkoutCountdownFragment extends Fragment {
         }
         TimeExercise te = (TimeExercise) usingStat;
         statsLayout = timeExerciseStats;
-        NumberFormat formatter = new DecimalFormat("#0");
-        completePercentageStatTextView.setText(formatter.format(te.getCompletedPercentage()) + "%");
+        completePercentageStatTextView.setText(te.getCompletedPercentage() + "%");
     }
 
     private void exercise(final View rootView) {
