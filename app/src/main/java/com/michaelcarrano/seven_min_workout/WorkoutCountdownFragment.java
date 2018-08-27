@@ -266,7 +266,7 @@ public class WorkoutCountdownFragment extends Fragment {
         name.setBackgroundColor(mWorkout.light);
         if (!workoutInProgress) {
             name.setText(R.string.get_ready);
-            rootView.findViewById(R.id.stats_container).setVisibility(View.INVISIBLE);
+            rootView.findViewById(R.id.stats_container).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.stats_container).setVisibility(View.VISIBLE);
             name.setText(R.string.rest);
@@ -283,6 +283,7 @@ public class WorkoutCountdownFragment extends Fragment {
             if (mWorkoutPos != 0) {
                 usingStat = stats.getExerciseStats()[mWorkoutPos - 1];
                 TextView lastEx = (TextView) rootView.findViewById(R.id.lastExerciseTextview);
+                lastEx.setVisibility(View.VISIBLE);
                 lastEx.setText(usingStat.getExerciseName());
                 if (usingStat instanceof TimeExercise) {
                     setStatsPanelHelper(rootView, usingStat, true, true);
@@ -319,12 +320,12 @@ public class WorkoutCountdownFragment extends Fragment {
 
 
             LinearLayout timeLay = (LinearLayout) rootView.findViewById(R.id.completedCheckLayout);
-            timeLay.setVisibility(View.INVISIBLE);
+            timeLay.setVisibility(View.GONE);
         }else if(!isRestCalling && !isTimeExercise){
             repExerciseStatsPopulator(rootView, usingStat, false);
 
             LinearLayout repLay = (LinearLayout) rootView.findViewById(R.id.repCompLayout);
-            repLay.setVisibility(View.INVISIBLE);
+            repLay.setVisibility(View.GONE);
         }
     }
 
@@ -357,8 +358,10 @@ public class WorkoutCountdownFragment extends Fragment {
 
     private void exercise(final View rootView) {
         rootView.findViewById(R.id.stats_container).setVisibility(View.VISIBLE);
-        (rootView.findViewById(R.id.repExerciseStats)).setVisibility(View.GONE);
-        (rootView.findViewById(R.id.timeExerciseStats)).setVisibility(View.GONE);
+        rootView.findViewById(R.id.repExerciseStats).setVisibility(View.GONE);
+        rootView.findViewById(R.id.timeExerciseStats).setVisibility(View.GONE);
+        rootView.findViewById(R.id.lastExerciseTextview).setVisibility(View.GONE);
+        rootView.findViewById(R.id.repCompLayout).setVisibility(View.GONE);
         isResting = false;
         TextView ready = (TextView) rootView.findViewById(R.id.workout_countdown_name);
         ready.setText(mWorkout.name);
