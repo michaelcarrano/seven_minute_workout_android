@@ -173,7 +173,7 @@ public class WorkoutCountdownFragment extends Fragment {
                     if (mWorkoutPos != 0) {
                         TextView lastEx = (TextView) getView().findViewById(R.id.lastExerciseTextview);
                         lastEx.setText("");
-                        ExerciseStats exercise = stats.getExerciseStats()[mWorkoutPos - 1];
+                        ExerciseStats exercise = stats.getExerciseStats()[ mWorkoutPos- 1];
                         if (isRep) {
                             EditText tv = (EditText) getView().findViewById(R.id.repsCompletedPlainText);
                             RepExercise re = (RepExercise) exercise;
@@ -266,43 +266,97 @@ public class WorkoutCountdownFragment extends Fragment {
         name.setBackgroundColor(mWorkout.light);
         if (!workoutInProgress) {
             name.setText(R.string.get_ready);
+            rootView.findViewById(R.id.stats_container).setVisibility(View.INVISIBLE);
         } else {
+            rootView.findViewById(R.id.stats_container).setVisibility(View.VISIBLE);
             name.setText(R.string.rest);
-            if (mWorkoutPos != 0) {
-                ExerciseStats prev = stats.getExerciseStats()[mWorkoutPos - 1];
-                TextView lastEx = (TextView) rootView.findViewById(R.id.lastExerciseTextview);
-                lastEx.setText(prev.getExerciseName());
-                if (prev instanceof TimeExercise) {
-                    TimeExercise te = (TimeExercise) prev;
-                    statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
-                    CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
-                    cb.setChecked(false);
-                    TextView compPerc = (TextView) rootView.findViewById(R.id.completePercentageStatTextView);
-                    NumberFormat formatter = new DecimalFormat("#0.0");
-                    compPerc.setText("%" + formatter.format(te.getCompletedPercentage()));
-                    isRep = false;
-                } else if (prev instanceof RepExercise) {
-                    RepExercise re = (RepExercise) prev;
-                    statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
-                    EditText repsCompleted = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
-                    repsCompleted.setText("");
-                    TextView avg = (TextView) rootView.findViewById(R.id.avgStatTextView);
-                    avg.setText(re.getPersoanlAvg() + "");
-                    TextView best = (TextView) rootView.findViewById(R.id.bestStatTextView);
-                    best.setText(re.getPersonalBest() + "");
-                    TextView lastTime = (TextView) rootView.findViewById(R.id.completedLastStatTextView);
-                    lastTime.setText(re.getCompletedLastTime() + "");
-                    isRep = true;
-                }
-                statsLayout.setVisibility(View.VISIBLE);
-            }
+            setStatsPanel(rootView, true);
         }
         REMAINING_TIME = REST_TIME / 1000.0f;
         setupCountDownTimer(REST_TIME, 10, REST_TIME);
         mCountDownTimer.start();
     }
 
+    private void setStatsPanel(View rootView, boolean isRestCalling) {
+        ExerciseStats usingStat;
+        if(isRestCalling){
+            if (mWorkoutPos != 0) {
+                usingStat = stats.getExerciseStats()[mWorkoutPos - 1];
+                TextView lastEx = (TextView) rootView.findViewById(R.id.lastExerciseTextview);
+                lastEx.setText(usingStat.getExerciseName());
+                if (usingStat instanceof TimeExercise) {
+                    setStatsPanelHelper(rootView, usingStat, true, true);
+                } else if (usingStat instanceof RepExercise) {
+                    setStatsPanelHelper(rootView, usingStat, false, true);
+                }
+            }
+        }else {
+            usingStat = stats.getExerciseStats()[mWorkoutPos];
+            if (usingStat instanceof TimeExercise) {
+               setStatsPanelHelper(rootView, usingStat, true, false);
+            } else if (usingStat instanceof RepExercise) {
+                setStatsPanelHelper(rootView, usingStat, false, false);
+            }
+        }
+        statsLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void setStatsPanelHelper(View rootView, ExerciseStats usingStat, boolean isTimeExercise, boolean isRestCalling) {
+        if(isRestCalling && isTimeExercise){
+            timeExerciseStatsPopulator(rootView, usingStat, true);
+
+            LinearLayout timeLay = (LinearLayout) rootView.findViewById(R.id.completedCheckLayout);
+            timeLay.setVisibility(View.VISIBLE);
+            isRep = false;
+        }else if (isRestCalling && !isTimeExercise){
+            repExerciseStatsPopulator(rootView, usingStat, true);
+
+            LinearLayout repLay = (LinearLayout) rootView.findViewById(R.id.repCompLayout);
+            repLay.setVisibility(View.VISIBLE);
+            isRep = true;
+        }else if (!isRestCalling && isTimeExercise){
+            timeExerciseStatsPopulator(rootView, usingStat, false);
+
+
+            LinearLayout timeLay = (LinearLayout) rootView.findViewById(R.id.completedCheckLayout);
+            timeLay.setVisibility(View.INVISIBLE);
+        }else if(!isRestCalling && !isTimeExercise){
+            repExerciseStatsPopulator(rootView, usingStat, false);
+
+            LinearLayout repLay = (LinearLayout) rootView.findViewById(R.id.repCompLayout);
+            repLay.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void repExerciseStatsPopulator(View rootView, ExerciseStats usingStat,boolean isRestCalling) {
+        if(isRestCalling){
+            EditText repsCompleted = (EditText) rootView.findViewById(R.id.repsCompletedPlainText);
+            repsCompleted.setText("");
+        }
+        RepExercise re = (RepExercise) usingStat;
+        statsLayout = (LinearLayout) rootView.findViewById(R.id.repExerciseStats);
+        TextView avg = (TextView) rootView.findViewById(R.id.avgStatTextView);
+        avg.setText(re.getPersoanlAvg() + "");
+        TextView best = (TextView) rootView.findViewById(R.id.bestStatTextView);
+        best.setText(re.getPersonalBest() + "");
+        TextView lastTime = (TextView) rootView.findViewById(R.id.completedLastStatTextView);
+        lastTime.setText(re.getCompletedLastTime() + "");
+    }
+
+    private void timeExerciseStatsPopulator(View rootView, ExerciseStats usingStat,boolean isRestCalling) {
+        if(isRestCalling){
+            CheckBox cb = (CheckBox) rootView.findViewById(R.id.isCompletedCheckBox);
+            cb.setChecked(false);
+        }
+        TimeExercise te = (TimeExercise) usingStat;
+        statsLayout = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
+        TextView compPerc = (TextView) rootView.findViewById(R.id.completePercentageStatTextView);
+        NumberFormat formatter = new DecimalFormat("#0.0");
+        compPerc.setText("%" + formatter.format(te.getCompletedPercentage()));
+    }
+
     private void exercise(final View rootView) {
+        rootView.findViewById(R.id.stats_container).setVisibility(View.VISIBLE);
         (rootView.findViewById(R.id.repExerciseStats)).setVisibility(View.GONE);
         (rootView.findViewById(R.id.timeExerciseStats)).setVisibility(View.GONE);
         isResting = false;
@@ -311,6 +365,9 @@ public class WorkoutCountdownFragment extends Fragment {
 
         TextView id = (TextView) rootView.findViewById(R.id.workout_countdown_id);
         id.setText(mWorkout.id);
+
+        setStatsPanel(rootView, false);
+
         REMAINING_TIME = EXERCISE_TIME / 1000.0f;
         setupCountDownTimer(EXERCISE_TIME, 10, EXERCISE_TIME);
         mCountDownTimer.start();
