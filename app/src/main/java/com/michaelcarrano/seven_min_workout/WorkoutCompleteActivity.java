@@ -117,7 +117,7 @@ public class WorkoutCompleteActivity extends AppCompatActivity {
                 Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
                 String json = gson.toJson(exerciseData.getExerciseStats());
                 prefsEditor.putString("stats", json);
-                prefsEditor.commit();
+                prefsEditor.apply();
 
                 finish();
             }

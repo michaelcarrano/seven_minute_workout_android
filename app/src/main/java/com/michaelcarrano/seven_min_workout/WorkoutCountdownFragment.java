@@ -32,15 +32,16 @@ import com.ohoussein.playpause.PlayPauseView;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by michaelcarrano on 12/6/13.
  */
 public class WorkoutCountdownFragment extends Fragment {
     private RuntimeTypeAdapterFactory<ExerciseStats> runtimeTypeAdapterFactory;
-	private boolean marioMediaPlayerIsPaused = false;
+    private boolean marioMediaPlayerIsPaused = false;
     private boolean isPaused = false;
     private boolean isResting = true;
-    private int secondOnTimer = 0;
     private MediaPlayer marioMediaPlayer = new MediaPlayer();
     private static float REMAINING_TIME;        // Time remaining (ie: device rotation)
 
@@ -66,9 +67,9 @@ public class WorkoutCountdownFragment extends Fragment {
     /**
      * The time spent for each activity (exercise or rest)
      */
-    private final int EXERCISE_TIME = 30000;     // 30 seconds
+    private final int EXERCISE_TIME = 3000;     // 30 seconds
 
-    private final int REST_TIME = 10000;         // 10 seconds
+    private final int REST_TIME = 1000;         // 10 seconds
 
     /**
      * Keeps track of the current workout
@@ -114,14 +115,14 @@ public class WorkoutCountdownFragment extends Fragment {
                 .registerSubtype(RepExercise.class, "rep")
                 .registerSubtype(TimeExercise.class, "time");
 
-        SharedPreferences mPrefs = getActivity().getSharedPreferences("exercise_stats", Context.MODE_PRIVATE);
+        SharedPreferences mPrefs = getActivity().getSharedPreferences("exercise_stats", MODE_PRIVATE);
         if (mPrefs.contains("stats")) { //try to get stats from shared pref
             Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
             String json = mPrefs.getString("stats", "");
-            stats.setExerciseStats(gson.fromJson(json, ExerciseStats[].class));
+            getStats().setExerciseStats(gson.fromJson(json, ExerciseStats[].class));
         } else {
             // Initialize the stats variable
-            stats = new ExerciseData(getActivity());
+            setStats(new ExerciseData(getActivity()));
         }
     }
 
@@ -149,18 +150,49 @@ public class WorkoutCountdownFragment extends Fragment {
         timeExerciseStats = (LinearLayout) rootView.findViewById(R.id.timeExerciseStats);
         completePercentageStatTextView = (TextView) rootView.findViewById(R.id.completePercentageStatTextView);
 
+
+        ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        pauseAndPlayButtonSetUp(rootView);
+
+        // Resume if resume was pressed
+        boolean resumePressed = getArguments().getBoolean("ResumePressed", false);
+        if (resumePressed) {
+            resumeWorkout();
+        }
         // Start off with 10 second rest, then alternate
-        if (!workoutInProgress) {
+        else if (!workoutInProgress) {
             rest(rootView);
         } else {
             exercise(rootView);
         }
 
-        ((ViewGroup) rootView.findViewById(R.id.workout_countdown_info_container)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        ((ViewGroup) rootView.findViewById(R.id.countdown)).getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
-        pauseAndPlayButtonSetUp(rootView);
         return rootView;
+    }
+
+    private void resumeWorkout() {
+        // Setup
+        SharedPreferences prefs = getActivity().getSharedPreferences("PausedWorkout", MODE_PRIVATE);
+
+        // Get current stats
+        if (prefs.contains("CurrentStats")) {
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
+            String json = prefs.getString("CurrentStats", "");
+            stats.setExerciseStats(gson.fromJson(json, ExerciseStats[].class));
+        }
+
+        // Get current exercise
+        isResting = prefs.getBoolean("CurrentState", true);
+        mWorkoutPos = prefs.getInt("CurrentExercise", -1);
+        isRep = prefs.getBoolean("IsRep", false);
+        mWorkout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(mWorkoutPos);
+
+        // Get current time remaining
+        REMAINING_TIME = prefs.getFloat("SecondsRemaining", 10000);
+
+        // Resume the workout
+        isPaused = false;
+        playPauseView.callOnClick();
     }
 
     @Override
@@ -175,9 +207,9 @@ public class WorkoutCountdownFragment extends Fragment {
      * Updates the CircularProgressBar every time the onTick is called while the timer is not paused.
      * onFinish() will shift the View based on which is currently shown.
      *
-     * @param millisInFuture The number of milliseconds remaining on the timer
+     * @param millisInFuture    The number of milliseconds remaining on the timer
      * @param countDownInterval Time interval along the process to receive a callback from the onTick() method
-     * @param progressBarMax The number of milliseconds the CicularProgressBar holds at the original start of the timer
+     * @param progressBarMax    The number of milliseconds the CicularProgressBar holds at the original start of the timer
      */
     private void setupCountDownTimer(final int millisInFuture, int countDownInterval, final int progressBarMax) {
         mCircularProgressBar.setMax(progressBarMax / 1000);
@@ -207,7 +239,7 @@ public class WorkoutCountdownFragment extends Fragment {
                     exercise(getView());
                     if (mWorkoutPos != 0) {
                         lastExerciseTextView.setText("");
-                        ExerciseStats exercise = stats.getExerciseStats()[ mWorkoutPos- 1];
+                        ExerciseStats exercise = getStats().getExerciseStats()[mWorkoutPos - 1];
                         if (isRep) {
                             RepExercise re = (RepExercise) exercise;
                             if (!repsCompletedPlainText.getText().toString().equals("")) {
@@ -265,19 +297,22 @@ public class WorkoutCountdownFragment extends Fragment {
                 if (isPaused) {
                     isPaused = false;
 
-                    setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, mCircularProgressBar.getmMax() * 1000);
+                    int progressBarMax = isResting ? REST_TIME : EXERCISE_TIME;
+                    setupCountDownTimer((int) (REMAINING_TIME * 1000), 10, progressBarMax);
                     mCountDownTimer.start();
-                    if(marioMediaPlayerIsPaused){
+                    if (marioMediaPlayerIsPaused) {
                         marioMediaPlayer.start();
                         marioMediaPlayerIsPaused = false;
                     }
 
                 } else {
-                    if(marioMediaPlayer.isPlaying()){
+                    if (marioMediaPlayer.isPlaying()) {
                         marioMediaPlayer.pause();
                         marioMediaPlayerIsPaused = true;
                     }
-                    mCountDownTimer.cancel();
+                    if (mCountDownTimer != null) {
+                        mCountDownTimer.cancel();
+                    }
                     isPaused = true;
                 }
             }
@@ -308,9 +343,9 @@ public class WorkoutCountdownFragment extends Fragment {
 
     private void setStatsPanel(View rootView, boolean isRestCalling) {
         ExerciseStats usingStat;
-        if(isRestCalling){
+        if (isRestCalling) {
             if (mWorkoutPos != 0) {
-                usingStat = stats.getExerciseStats()[mWorkoutPos - 1];
+                usingStat = getStats().getExerciseStats()[mWorkoutPos - 1];
                 lastExerciseTextView.setVisibility(View.VISIBLE);
                 lastExerciseTextView.setText(usingStat.getExerciseName());
                 if (usingStat instanceof TimeExercise) {
@@ -319,10 +354,10 @@ public class WorkoutCountdownFragment extends Fragment {
                     setStatsPanelHelper(rootView, usingStat, false, true);
                 }
             }
-        }else {
-            usingStat = stats.getExerciseStats()[mWorkoutPos];
+        } else {
+            usingStat = getStats().getExerciseStats()[mWorkoutPos];
             if (usingStat instanceof TimeExercise) {
-               setStatsPanelHelper(rootView, usingStat, true, false);
+                setStatsPanelHelper(rootView, usingStat, true, false);
             } else if (usingStat instanceof RepExercise) {
                 setStatsPanelHelper(rootView, usingStat, false, false);
             }
@@ -331,29 +366,29 @@ public class WorkoutCountdownFragment extends Fragment {
     }
 
     private void setStatsPanelHelper(View rootView, ExerciseStats usingStat, boolean isTimeExercise, boolean isRestCalling) {
-        if(isRestCalling && isTimeExercise){
+        if (isRestCalling && isTimeExercise) {
             timeExerciseStatsPopulator(rootView, usingStat, true);
 
             completedCheckLayout.setVisibility(View.VISIBLE);
             isRep = false;
-        }else if (isRestCalling && !isTimeExercise){
+        } else if (isRestCalling && !isTimeExercise) {
             repExerciseStatsPopulator(rootView, usingStat, true);
 
             repCompLayout.setVisibility(View.VISIBLE);
             isRep = true;
-        }else if (!isRestCalling && isTimeExercise){
+        } else if (!isRestCalling && isTimeExercise) {
             timeExerciseStatsPopulator(rootView, usingStat, false);
 
             completedCheckLayout.setVisibility(View.GONE);
-        }else if(!isRestCalling && !isTimeExercise){
+        } else if (!isRestCalling && !isTimeExercise) {
             repExerciseStatsPopulator(rootView, usingStat, false);
 
             repCompLayout.setVisibility(View.GONE);
         }
     }
 
-    private void repExerciseStatsPopulator(View rootView, ExerciseStats usingStat,boolean isRestCalling) {
-        if(isRestCalling){
+    private void repExerciseStatsPopulator(View rootView, ExerciseStats usingStat, boolean isRestCalling) {
+        if (isRestCalling) {
             repsCompletedPlainText.setText("");
         }
         RepExercise re = (RepExercise) usingStat;
@@ -363,8 +398,8 @@ public class WorkoutCountdownFragment extends Fragment {
         completedLastStatTextView.setText(re.getCompletedLastTime() + "");
     }
 
-    private void timeExerciseStatsPopulator(View rootView, ExerciseStats usingStat,boolean isRestCalling) {
-        if(isRestCalling){
+    private void timeExerciseStatsPopulator(View rootView, ExerciseStats usingStat, boolean isRestCalling) {
+        if (isRestCalling) {
             isCompletedCheckBox.setChecked(false);
         }
         TimeExercise te = (TimeExercise) usingStat;
@@ -383,6 +418,8 @@ public class WorkoutCountdownFragment extends Fragment {
 
         workoutCountdownName.setText(mWorkout.name);
         workoutCountdownId.setText(mWorkout.id);
+        workoutCountdownName.setBackgroundColor(mWorkout.light);
+        workoutCountdownId.setBackgroundColor(mWorkout.dark);
 
         setStatsPanel(rootView, false);
 
@@ -398,15 +435,60 @@ public class WorkoutCountdownFragment extends Fragment {
         MediaPlayer mediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.cheer3);
         mediaPlayer.start();
 
-
+        // Store stats from workout
         Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
-        String json = gson.toJson(stats.getExerciseStats());
+        String json = gson.toJson(getStats().getExerciseStats());
 
-//        String arrayAsString = new Gson().toJson(stats.getExerciseStats());
+        // Save boolean indicating workout is not paused
+        SharedPreferences mPrefs = getActivity().getSharedPreferences("PausedWorkout", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putBoolean("WorkoutIsPaused", false);
+        prefsEditor.apply();
 
+        // Start workoutCompleteActivity
         Intent intent = new Intent(this.getActivity(), WorkoutCompleteActivity.class);
         intent.putExtra("stats_array", json);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    public ExerciseData getStats() {
+        return stats;
+    }
+
+    public void setStats(ExerciseData stats) {
+        this.stats = stats;
+    }
+
+    public int getmWorkoutPos() {
+        return mWorkoutPos;
+    }
+
+    public void setmWorkoutPos(int mWorkoutPos) {
+        this.mWorkoutPos = mWorkoutPos;
+    }
+
+    public boolean getWorkoutInProgress() {
+        return workoutInProgress;
+    }
+
+    public boolean getIsResting() {
+        return isResting;
+    }
+
+    public float getRemainingTime() {
+        return REMAINING_TIME;
+    }
+
+    public PlayPauseView getPlayPauseView() {
+        return playPauseView;
+    }
+
+    public boolean isRep() {
+        return isRep;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
     }
 }

@@ -2,6 +2,8 @@ package com.michaelcarrano.seven_min_workout;
 
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.Gravity;
@@ -12,6 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.michaelcarrano.seven_min_workout.Utils.RuntimeTypeAdapterFactory;
+import com.michaelcarrano.seven_min_workout.data.ExerciseData;
+import com.michaelcarrano.seven_min_workout.data.ExerciseStats;
+import com.michaelcarrano.seven_min_workout.data.RepExercise;
+import com.michaelcarrano.seven_min_workout.data.TimeExercise;
 
 /**
  * An Activity that represents the Workout timer. Each workout is 30 seconds long with 10 seconds of
@@ -32,15 +42,65 @@ public class WorkoutCountdownActivity extends BaseActivity {
 
         setContentView(R.layout.activity_workout_countdown);
 
+        boolean resumePressed = getIntent().getBooleanExtra("ResumePressed", false);
         if (savedInstanceState == null) {
             fragment = new WorkoutCountdownFragment();
+
+            // Pass ResumePressed to fragment
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("ResumePressed", resumePressed);
+            fragment.setArguments(bundle);
+
+            // Start fragment
             getSupportFragmentManager().beginTransaction().add(R.id.workout_countdown_container,
                     fragment)
                     .commit();
         } else {
             Toast.makeText(this, "Countdown Activity", Toast.LENGTH_LONG).show();
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+
+        if (fragment.getWorkoutInProgress()) {
+
+            if (!fragment.isPaused()) {
+                fragment.getPlayPauseView().callOnClick();
+            }
+
+            // Setup
+            SharedPreferences mPrefs = getSharedPreferences("PausedWorkout", MODE_PRIVATE);
+            SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+            // Save boolean indicating workout is paused
+            prefsEditor.putBoolean("WorkoutIsPaused", true);
+
+            // Save current stats
+            RuntimeTypeAdapterFactory runtimeTypeAdapterFactory = RuntimeTypeAdapterFactory
+                    .of(ExerciseStats.class, "type")
+                    .registerSubtype(RepExercise.class, "rep")
+                    .registerSubtype(TimeExercise.class, "time");
+            Gson gson = new GsonBuilder().registerTypeAdapterFactory(runtimeTypeAdapterFactory).create();
+            String json = gson.toJson(fragment.getStats().getExerciseStats());
+            prefsEditor.putString("CurrentStats", json);
+
+            // Save current exercise
+            int workoutPos = fragment.getmWorkoutPos();
+            boolean isResting = fragment.getIsResting();
+            boolean isRep = fragment.isRep();
+            prefsEditor.putBoolean("CurrentState", isResting);
+            prefsEditor.putBoolean("IsRep", isRep);
+            prefsEditor.putInt("CurrentExercise", workoutPos);
+
+            // Save current time remaining
+            float remainingTimeInSeconds = fragment.getRemainingTime();
+            prefsEditor.putFloat("SecondsRemaining", remainingTimeInSeconds);
+
+            // Apply changes to shared preference
+            prefsEditor.apply();
+        }
+        super.onBackPressed();
     }
 
     public void layoutClicked(View view) {
@@ -108,7 +168,6 @@ public class WorkoutCountdownActivity extends BaseActivity {
                 break;
         }
         tv.setText(text);
-
     }
 
 }

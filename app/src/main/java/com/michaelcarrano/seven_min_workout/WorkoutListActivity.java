@@ -1,6 +1,7 @@
 package com.michaelcarrano.seven_min_workout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -44,8 +45,47 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                 startActivity(workoutIntent);
             }
         });
-        addResumeFab();
+
+        // Setup
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+        // Get boolean indicating if workout is paused
+        boolean canResume = prefs.getBoolean("WorkoutIsPaused", false);
+        if (canResume) {
+            addResumeFab().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent workoutIntent = new Intent(WorkoutListActivity.this, WorkoutCountdownActivity.class);
+                    workoutIntent.putExtra("ResumePressed", true);
+                    startActivity(workoutIntent);
+                }
+            });
+        }
+        checkForResumeFab();
         workoutListView = (ListView) findViewById(android.R.id.list);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkForResumeFab();
+    }
+
+    public void checkForResumeFab() {
+        // Get boolean indicating if workout is paused
+        SharedPreferences prefs = getSharedPreferences("PausedWorkout", MODE_PRIVATE);
+        boolean canResume = prefs.getBoolean("WorkoutIsPaused", false);
+
+        if (canResume) {
+            addResumeFab().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent workoutIntent = new Intent(WorkoutListActivity.this, WorkoutCountdownActivity.class);
+                    workoutIntent.putExtra("ResumePressed", true);
+                    startActivity(workoutIntent);
+                }
+            });
+        }
     }
 
     /**
