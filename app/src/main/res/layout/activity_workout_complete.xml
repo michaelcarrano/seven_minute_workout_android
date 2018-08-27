@@ -4,19 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".WorkoutCompleteActivity">
+
+    <TextView
+        android:id="@+id/congratulationsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/congratulations"
+        android:textColor="@color/white"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/youDidItTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/you_did_it"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <fragment
         android:id="@+id/fragment"
         android:name="com.michaelcarrano.seven_min_workout.AllExerciseStatsFragment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/completeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/complete_workout" />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/complete_workout_btn_background"
+        android:padding="15dp"
+        android:text="@string/complete_workout"
+        android:textColor="@color/black" />
 </LinearLayout>

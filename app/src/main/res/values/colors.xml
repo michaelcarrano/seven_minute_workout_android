@@ -84,5 +84,6 @@
     <color name="black">#000000</color>
     <color name="gray">#CCCCCC</color>
 
+    <color name="dark_gray">#626268</color>
 
 </resources>

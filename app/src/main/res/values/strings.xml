@@ -23,6 +23,10 @@
     <string name="about_part5">This application requires the internet in order to play Youtube videos that describe each exercise. (The Youtube application needs to be installed in order to view these videos)</string>
     <string name="about_part6">This application requires the internet in order to use Crashlytics to collect data when and only when the application crashes. The data collected will help to identify the cause of the crash.</string>
 
+    <!-- Workout Completed Screen Text -->
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_did_it">You finished the workout!</string>
+
     <!-- Workout names -->
     <string name="jumping_jacks">Jumping jacks</string>
     <string name="wall_sits">Wall sits</string>
@@ -36,6 +40,20 @@
     <string name="lunges">Lunges</string>
     <string name="push_ups_and_rotations">Push-ups and rotations</string>
     <string name="side_planks">Side planks</string>
+
+    <!-- Workout names with colons -->
+    <string name="jumping_jacks_color">Jumping jacks:</string>
+    <string name="wall_sits_colon">Wall sits:</string>
+    <string name="push_ups_colon">Push-ups:</string>
+    <string name="abdominal_crunches_colon">Abdominal crunches:</string>
+    <string name="step_ups_onto_a_chair_colon">Step-ups onto a chair:</string>
+    <string name="squats_colon">Squats:</string>
+    <string name="triceps_dips_on_a_chair_colon">Triceps dips on a chair:</string>
+    <string name="planks_colon">Planks:</string>
+    <string name="high_knees_running_in_place_colon">High knees running in place:</string>
+    <string name="lunges_colon">Lunges:</string>
+    <string name="push_ups_and_rotations_colon">Push-ups and rotations:</string>
+    <string name="side_planks_colon">Side planks:</string>
 
     <!-- Workout description -->
     <string name="jumping_jacks_desc">Start with your feet together and arms at your sides. Slightly bend your knees and jump straight up. As you are jumping kick your legs out to shoulder width and bring your hands over your head to form a "star".</string>
@@ -117,7 +135,7 @@
     <string name="best_text">Personal Best: </string>
     <string name="is_completed">Completed: </string>
     <string name="completed_last">Completed Last Time: </string>
-    <string name="workout_summary">Workout Summary</string>
+    <string name="workout_summary"><b>Workout Summary</b></string>
     <string name="high_knees">High knees</string>
     <string name="complete_percentage">Complete Percentage: </string>
     <string name="complete_workout">Complete Workout</string>
