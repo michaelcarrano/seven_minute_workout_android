@@ -236,20 +236,13 @@ public class WorkoutCountdownFragment extends Fragment {
         mCountDownTimer = new CountDownTimer(millisInFuture, COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (!isPaused) {
-                    if (isResting) {
-                        REMAINING_TIME = (millisUntilFinished / 1000.0f);
-                        if (REMAINING_TIME < 3.05 && REMAINING_TIME > 2.94) {
-                            countdownMediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.exercise_start);
-                            countdownMediaPlayer.start();
-                        }
-                        mCircularProgressBar.setProgress(REMAINING_TIME);
-
-                    } else {
-                        REMAINING_TIME = (millisUntilFinished / 1000.0f);
-                        mCircularProgressBar.setProgress(REMAINING_TIME);
-                    }
+                if (isResting && REMAINING_TIME < 3.05 && REMAINING_TIME > 2.94) {
+                    countdownMediaPlayer = MediaPlayer.create(getActivity().getApplicationContext(), R.raw.exercise_start);
+                    countdownMediaPlayer.start();
                 }
+
+                REMAINING_TIME = (millisUntilFinished / 1000.0f);
+                mCircularProgressBar.setProgress(REMAINING_TIME);
             }
 
             @Override
