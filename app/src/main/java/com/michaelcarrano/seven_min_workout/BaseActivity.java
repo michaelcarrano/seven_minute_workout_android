@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by michaelcarrano on 10/1/16.
@@ -75,6 +76,42 @@ public class BaseActivity extends AppCompatActivity {
     @Nullable
     public FloatingActionButton setShowFab(boolean show) {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        if (fab == null || fab.getVisibility() == View.VISIBLE && show || fab.getVisibility() == View.GONE && !show) {
+            return fab;
+        }
+
+        fab.clearAnimation();
+
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+        if (show) {
+//            params.setBehavior(new FloatingActionButtonBehavior(this));
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            params.setBehavior(null);
+            fab.setVisibility(View.GONE);
+        }
+
+        return fab;
+    }
+
+    @NonNull
+    public Button addResumeFab() {
+        Button button = (Button) findViewById(R.id.fabResume);
+
+        if (button == null) {
+            getLayoutInflater().inflate(R.layout.fab_resume, getCoordinatorLayout());
+            button = (Button) findViewById(R.id.fabResume);
+        }
+
+        setShowResumeFab(true);
+
+        return button;
+    }
+
+    @Nullable
+    public Button setShowResumeFab(boolean show) {
+        Button fab = (Button) findViewById(R.id.fabResume);
 
         if (fab == null || fab.getVisibility() == View.VISIBLE && show || fab.getVisibility() == View.GONE && !show) {
             return fab;

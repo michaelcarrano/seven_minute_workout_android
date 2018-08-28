@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fabResume"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|start"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginStart="@dimen/activity_vertical_margin"
+    android:background="@drawable/fab_resume_background"
+    android:contentDescription="@string/menu_start_workout"
+    android:padding="15dp"
+    android:text="@string/resume"
+    android:textColor="@color/white"
+    android:textSize="18sp"
+    app:layout_anchorGravity="bottom|start" />

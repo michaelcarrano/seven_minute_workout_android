@@ -1,6 +1,6 @@
 <resources>
     <!-- Circular Progress Bar -->
-    <declare-styleable name="circularProgressBar">
+    <declare-styleable name="CircularProgressBar">
 
         <!-- our custom attribute -->
         <attr name="max" format="integer" />

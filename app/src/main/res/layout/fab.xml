@@ -10,6 +10,7 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:contentDescription="@string/menu_start_workout"
     android:src="@drawable/ic_action_play"
+    app:backgroundTint="@color/fab"
     app:elevation="6dp"
     app:layout_anchorGravity="bottom|end"
     app:pressedTranslationZ="4dp"

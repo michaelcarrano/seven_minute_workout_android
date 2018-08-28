@@ -26,7 +26,7 @@ public class WorkoutDetailActivity extends BaseActivity {
 
         // Get the Workout that was selected
         int selected = getIntent().getExtras().getInt(WorkoutDetailFragment.ARG_WORKOUT_POS);
-        WorkoutContent.Workout workout = WorkoutContent.WORKOUTS.get(selected);
+        WorkoutContent.Workout workout = (WorkoutContent.Workout) WorkoutContent.MENU_ITEMS.get(selected);
         Log.i("7min", "Selected: " + selected + " " + workout.name);
 
         toolbar.setTitle(workout.name);
