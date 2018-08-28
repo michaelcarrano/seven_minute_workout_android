@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.michaelcarrano.seven_min_workout.data.WorkoutContent;
@@ -47,20 +48,8 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
         });
 
         // Setup
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("PausedWorkout", MODE_PRIVATE);
 
-        // Get boolean indicating if workout is paused
-        boolean canResume = prefs.getBoolean("WorkoutIsPaused", false);
-        if (canResume) {
-            addResumeFab().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent workoutIntent = new Intent(WorkoutListActivity.this, WorkoutCountdownActivity.class);
-                    workoutIntent.putExtra("ResumePressed", true);
-                    startActivity(workoutIntent);
-                }
-            });
-        }
         checkForResumeFab();
         workoutListView = (ListView) findViewById(android.R.id.list);
     }
@@ -85,6 +74,9 @@ public class WorkoutListActivity extends BaseActivity implements WorkoutListFrag
                     startActivity(workoutIntent);
                 }
             });
+        }
+        else {
+            setShowResumeFab(false);
         }
     }
 

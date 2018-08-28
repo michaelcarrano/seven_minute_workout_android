@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -62,14 +63,25 @@ public class WorkoutCountdownActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                saveWorkout();
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
+        saveWorkout();
+        super.onBackPressed();
+    }
 
+    public void saveWorkout() {
         if (fragment.getWorkoutInProgress()) {
-
-            if (!fragment.isPaused()) {
-                fragment.getPlayPauseView().callOnClick();
-            }
-
             // Setup
             SharedPreferences mPrefs = getSharedPreferences("PausedWorkout", MODE_PRIVATE);
             SharedPreferences.Editor prefsEditor = mPrefs.edit();
@@ -90,7 +102,7 @@ public class WorkoutCountdownActivity extends BaseActivity {
             int workoutPos = fragment.getmWorkoutPos();
             boolean isResting = fragment.getIsResting();
             boolean isRep = fragment.isRep();
-            prefsEditor.putBoolean("CurrentState", isResting);
+            prefsEditor.putBoolean("IsResting", isResting);
             prefsEditor.putBoolean("IsRep", isRep);
             prefsEditor.putInt("CurrentExercise", workoutPos);
 
@@ -101,7 +113,6 @@ public class WorkoutCountdownActivity extends BaseActivity {
             // Apply changes to shared preference
             prefsEditor.apply();
         }
-        super.onBackPressed();
     }
 
     /**

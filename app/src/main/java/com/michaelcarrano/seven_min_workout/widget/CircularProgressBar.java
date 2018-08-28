@@ -66,7 +66,7 @@ public class CircularProgressBar extends View {
 
         // extract params (if provided)
         final TypedArray args = context
-                .obtainStyledAttributes(attrs, R.styleable.circularProgressBar);
+                .obtainStyledAttributes(attrs, R.styleable.CircularProgressBar);
 
         final float defaultDiameter = TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 64, this.getResources()
@@ -83,31 +83,31 @@ public class CircularProgressBar extends View {
 
         try {
             final int bgColor = args
-                    .getColor(R.styleable.circularProgressBar_bgColor, R.color.black);
+                    .getColor(R.styleable.CircularProgressBar_bgColor, getResources().getColor(R.color.black));
             final int bgStrokeWidth = args
-                    .getDimensionPixelSize(R.styleable.circularProgressBar_bgStrokeWidth,
+                    .getDimensionPixelSize(R.styleable.CircularProgressBar_bgStrokeWidth,
                             (int) defaultStrokeWidth);
 
             final int progressColor = args
-                    .getColor(R.styleable.circularProgressBar_progressColor, R.color.white);
+                    .getColor(R.styleable.CircularProgressBar_progressColor, getResources().getColor(R.color.white));
             final int progressStrokeWidth = args.getDimensionPixelSize(
-                    R.styleable.circularProgressBar_progressStrokeWidth, (int) defaultStrokeWidth);
+                    R.styleable.CircularProgressBar_progressStrokeWidth, (int) defaultStrokeWidth);
 
-            this.mShowText = args.getBoolean(R.styleable.circularProgressBar_showText, false);
+            this.mShowText = args.getBoolean(R.styleable.CircularProgressBar_showText, false);
             final int textSize = args
-                    .getDimensionPixelSize(R.styleable.circularProgressBar_android_textSize,
+                    .getDimensionPixelSize(R.styleable.CircularProgressBar_android_textSize,
                             (int) defaultTextSize);
             final int textColor = args
-                    .getInt(R.styleable.circularProgressBar_android_textColor, R.color.white);
+                    .getInt(R.styleable.CircularProgressBar_android_textColor, R.color.white);
 
             this.mLayoutMargin = args
-                    .getDimensionPixelSize(R.styleable.circularProgressBar_android_layout_margin,
+                    .getDimensionPixelSize(R.styleable.CircularProgressBar_android_layout_margin,
                             (int) defaultMargin);
 
-            this.mMax = args.getInt(R.styleable.circularProgressBar_max, DEFAULT_MAX_VALUE);
+            this.mMax = args.getInt(R.styleable.CircularProgressBar_max, DEFAULT_MAX_VALUE);
 
             this.mDiameter = args
-                    .getDimension(R.styleable.circularProgressBar_diameter, defaultDiameter);
+                    .getDimension(R.styleable.CircularProgressBar_diameter, defaultDiameter);
 
             // create paint settings based on supplied args
             this.mBgPaint = new Paint();
@@ -223,13 +223,5 @@ public class CircularProgressBar extends View {
 
     public void setDiameter(final float diameter) {
         this.mDiameter = diameter;
-    }
-
-    public float getmProgress() {
-        return mProgress;
-    }
-
-    public int getmMax() {
-        return mMax;
     }
 }
